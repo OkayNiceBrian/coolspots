@@ -1,6 +1,6 @@
 //import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { ImageBackground, StyleSheet, StatusBar, View, Image, Text, TouchableHighlight } from 'react-native';
+import { ImageBackground, StyleSheet, StatusBar, View, Image, Text, TouchableHighlight, } from 'react-native';
 
 function WelcomeScreen(props) {
     return (
@@ -71,10 +71,9 @@ const styles = StyleSheet.create({
     },
     tagline: {
         fontSize: 24,
-        fontFamily: 'Arial',
         color: '#fff',
         top: 20,
     },
-})
+});
 
 export default WelcomeScreen;
