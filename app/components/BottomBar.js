@@ -6,21 +6,21 @@ import { StyleSheet, View, TouchableOpacity } from 'react-native';
 function BottomBar(props) {
     return (
         <View style={styles.bottomBar}>
-            <TouchableOpacity onPress={() => {pressHome()}}>
+            <TouchableOpacity onPress={() => {pressHome()}} hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}>
                 <FontAwesomeIcon 
                     icon={faHome} 
                     size={36}
                     color={'white'}
                 />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => {pressSearch()}}>
+            <TouchableOpacity onPress={() => {pressSearch()}} hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}>
                 <FontAwesomeIcon 
                     icon={faSearch} 
                     size={30}
                     color={'white'}
                 />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => {pressMap()}}>
+            <TouchableOpacity onPress={() => {pressMap()}} hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}>
                 <FontAwesomeIcon 
                     icon={faMapMarkedAlt} 
                     size={35}
