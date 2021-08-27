@@ -1,13 +1,15 @@
 //import { StatusBar } from 'expo-status-bar';
 import React from 'react';
+import TopBar from '../components/TopBar';
 import { ImageBackground, StyleSheet, StatusBar, View, Image, Text, TouchableHighlight, } from 'react-native';
 
 function WelcomeScreen(props) {
     return (
+        
         <View 
             style={styles.background}
         >
-            <StatusBar barStyle='light-content'/>
+            <TopBar />
             <View style={styles.logoContainer}>
                 <Image 
                     source={require('../assets/favicon.png')} 
@@ -39,7 +41,7 @@ const styles = StyleSheet.create({
     background: {
         flex: 1,
         backgroundColor: '#b5d9fe',
-        justifyContent: 'flex-end',
+        justifyContent: 'flex-start',
         alignItems: 'center',
     },
     buttonText: {
@@ -53,30 +55,22 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderColor: 'white',
-        borderWidth: 3,
-        borderLeftWidth: 0,
-        borderRightWidth: 0,
-        borderBottomWidth: 0,
     },
     logo: {
         width: 100,
         height: 100,  
     },
     logoContainer: {
-        position: 'absolute',
+        flex: 1,
         top: 70,
         alignItems: 'center',
     },
     registerButton: {
         width: '100%',
         height: 70,
-        backgroundColor: '#637c98',
+        backgroundColor: '#7a52aa',
         justifyContent: 'center',
         alignItems: 'center',
-        borderColor: 'white',
-        borderWidth: 3,
-        borderLeftWidth: 0,
-        borderRightWidth: 0,
     },
     tagline: {
         fontSize: 40,
