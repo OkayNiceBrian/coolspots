@@ -9,6 +9,6 @@ export default function App() {
   console.log("App Executing");
 
   return (
-    <HomeScreen />
+    <WelcomeScreen />
   );
 }

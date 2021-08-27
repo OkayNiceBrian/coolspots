@@ -4,9 +4,8 @@ import { ImageBackground, StyleSheet, StatusBar, View, Image, Text, TouchableHig
 
 function WelcomeScreen(props) {
     return (
-        <ImageBackground 
+        <View 
             style={styles.background}
-            source={require('../assets/laura-vinck-unsplash.jpg')}
         >
             <StatusBar barStyle='light-content'/>
             <View style={styles.logoContainer}>
@@ -14,7 +13,7 @@ function WelcomeScreen(props) {
                     source={require('../assets/favicon.png')} 
                     style={styles.logo}
                 />
-                <Text style={styles.tagline}>Gifts That Keep On Giving</Text>
+                <Text style={styles.tagline}>CoolSpots</Text>
             </View>
             <TouchableHighlight 
                 style={{width: "100%"}} 
@@ -32,13 +31,14 @@ function WelcomeScreen(props) {
                     <Text style={styles.buttonText}>Register</Text>
                 </View>
             </TouchableHighlight>
-        </ImageBackground>
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
     background: {
         flex: 1,
+        backgroundColor: '#b5d9fe',
         justifyContent: 'flex-end',
         alignItems: 'center',
     },
@@ -49,9 +49,14 @@ const styles = StyleSheet.create({
     loginButton: {
         width: '100%',
         height: 70,
-        backgroundColor: '#fc5c65',
+        backgroundColor: '#637c98',
         justifyContent: 'center',
         alignItems: 'center',
+        borderColor: 'white',
+        borderWidth: 3,
+        borderLeftWidth: 0,
+        borderRightWidth: 0,
+        borderBottomWidth: 0,
     },
     logo: {
         width: 100,
@@ -65,12 +70,17 @@ const styles = StyleSheet.create({
     registerButton: {
         width: '100%',
         height: 70,
-        backgroundColor: '#4ecdc4',
+        backgroundColor: '#637c98',
         justifyContent: 'center',
         alignItems: 'center',
+        borderColor: 'white',
+        borderWidth: 3,
+        borderLeftWidth: 0,
+        borderRightWidth: 0,
     },
     tagline: {
-        fontSize: 24,
+        fontSize: 40,
+        fontStyle: 'italic',
         color: '#fff',
         top: 20,
     },
