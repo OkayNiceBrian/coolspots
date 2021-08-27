@@ -7,16 +7,25 @@ function HomeScreen(props) {
     return (
         <View style={styles.container}>
             <TopBar />
+            <View style={styles.brand}>
+                <Text style={styles.brandText}>CoolSpots</Text>
+            </View>
             <View style={styles.content}>
                 <View style={styles.menu}>
-                    <TouchableHighlight onPress={() => onPressMySpots()}>
-                        <View style={styles.menuOption}>
+                    <TouchableHighlight 
+                        style={{width: '100%'}}
+                        onPress={() => onPressMySpots()}
+                    >
+                        <View style={[styles.menuOption, {borderTopWidth: 5}]}>
                             <Text style={styles.menuText}>My Spots</Text>
                         </View>
                     </TouchableHighlight>
-                    <TouchableHighlight onPress={() => onPressSettings()}>
+                    <TouchableHighlight 
+                        style={{width: '100%'}}
+                        onPress={() => onPressSettings()}
+                    >
                         <View style={styles.menuOption}>
-                            <Text>Settings</Text>
+                            <Text style={styles.menuText}>Settings</Text>
                         </View>
                     </TouchableHighlight>
                 </View>
@@ -35,6 +44,18 @@ function onPressSettings() {
 }
 
 const styles = StyleSheet.create({
+    brand: {
+        width: '100%',
+        height: 200,
+        backgroundColor: '#b5d9fe',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },  
+    brandText: {
+        color: '#fff',
+        fontSize: 40,
+        fontStyle: 'italic',
+    },
     container: {
         flex: 1,
         backgroundColor: '#fff',
@@ -51,7 +72,6 @@ const styles = StyleSheet.create({
     menu: {
         flex: 1,
         width: '100%',
-        padding: 50,
         justifyContent: 'flex-start',
         alignItems: 'center',
     },
@@ -60,10 +80,14 @@ const styles = StyleSheet.create({
         height: 70,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'blue',
+        backgroundColor: '#ececec',
+        borderWidth: 5,
+        borderTopWidth: 0,
+        borderColor: '#d4d4d4',
     },
     menuText: {
         color: '#000',
+        fontSize: 18,
     },
 })
 
