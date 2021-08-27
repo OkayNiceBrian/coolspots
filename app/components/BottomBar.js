@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faHome, faSearch, faMapMarkedAlt } from '@fortawesome/free-solid-svg-icons'
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
 
-function BottomBar(props) {
+const BottomBar = ({ navigation }) => {
     return (
         <View style={styles.bottomBar}>
             <TouchableOpacity onPress={() => {pressHome()}} hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}>
@@ -29,6 +29,18 @@ function BottomBar(props) {
             </TouchableOpacity>
         </View>     
     );  
+
+    function pressHome() {
+        console.log("Home Button Pressed.");
+    }
+    
+    function pressSearch() {
+        console.log("Search Button Pressed.");
+    }
+    
+    function pressMap() {
+        console.log("Map Button Pressed.");
+    }
 }
 
 const styles = StyleSheet.create({
@@ -41,17 +53,5 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
 })
-
-function pressHome() {
-    console.log("Home Button Pressed.");
-}
-
-function pressSearch() {
-    console.log("Search Button Pressed.");
-}
-
-function pressMap() {
-    console.log("Map Button Pressed.");
-}
 
 export default BottomBar;

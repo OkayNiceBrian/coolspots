@@ -3,7 +3,7 @@ import BottomBar from '../components/BottomBar';
 import TopBar from '../components/TopBar';
 import { View, StyleSheet, TouchableHighlight, Text } from 'react-native';
 
-function HomeScreen(props) {
+const HomeScreen = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <TopBar />
@@ -33,14 +33,14 @@ function HomeScreen(props) {
             <BottomBar />
         </View>
     );
-}
 
-function onPressMySpots() {
-    console.log("My Spots pressed.")
-}
-
-function onPressSettings() {
-    console.log("Settings pressed.")
+    function onPressMySpots() {
+        console.log("My Spots pressed.")
+    }
+    
+    function onPressSettings() {
+        console.log("Settings pressed.")
+    }
 }
 
 const styles = StyleSheet.create({

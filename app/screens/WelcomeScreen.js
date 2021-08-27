@@ -3,9 +3,8 @@ import React from 'react';
 import TopBar from '../components/TopBar';
 import { ImageBackground, StyleSheet, StatusBar, View, Image, Text, TouchableHighlight, } from 'react-native';
 
-function WelcomeScreen(props) {
-    return (
-        
+const WelcomeScreen = ({ navigation }) => {
+    return (        
         <View 
             style={styles.background}
         >
@@ -19,7 +18,7 @@ function WelcomeScreen(props) {
             </View>
             <TouchableHighlight 
                 style={{width: "100%"}} 
-                onPress={() => console.log("Login Pressed")}
+                onPress={() => onPressLogin()}
             >
                 <View style={styles.loginButton}>
                     <Text style={styles.buttonText}>Login</Text>
@@ -35,6 +34,11 @@ function WelcomeScreen(props) {
             </TouchableHighlight>
         </View>
     );
+
+    function onPressLogin() {
+        console.log("Login Button Pressed");
+        navigation.navigate('Home');
+    }
 }
 
 const styles = StyleSheet.create({
