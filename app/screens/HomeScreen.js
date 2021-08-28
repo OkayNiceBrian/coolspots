@@ -41,6 +41,7 @@ const HomeScreen = ({ navigation }) => {
     
     function onPressSettings() {
         console.log("Settings pressed.");
+        navigation.navigate('Settings');
     }
 }
 
