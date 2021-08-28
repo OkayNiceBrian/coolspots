@@ -35,11 +35,12 @@ const HomeScreen = ({ navigation }) => {
     );
 
     function onPressMySpots() {
-        console.log("My Spots pressed.")
+        console.log("My Spots pressed.");
+        navigation.navigate('MySpots');
     }
     
     function onPressSettings() {
-        console.log("Settings pressed.")
+        console.log("Settings pressed.");
     }
 }
 

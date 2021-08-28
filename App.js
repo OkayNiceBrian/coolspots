@@ -6,6 +6,7 @@ import WelcomeScreen from './app/screens/WelcomeScreen';
 import MapScreen from './app/screens/MapScreen';
 import HomeScreen from './app/screens/HomeScreen';
 import BottomBar from './app/components/BottomBar';
+import MySpotsScreen from './app/screens/MySpotsScreen';
 import { StyleSheet, Text, View, Image, SafeAreaView, Button, Alert} from 'react-native';
 
 const Stack = createNativeStackNavigator();
@@ -27,6 +28,10 @@ export default function App() {
         <Stack.Screen 
           name="Map"
           component={MapScreen}
+        />
+        <Stack.Screen
+          name="MySpots"
+          component={MySpotsScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>
