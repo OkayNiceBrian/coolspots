@@ -1,7 +1,13 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faHome, faSearch, faMapMarkedAlt } from '@fortawesome/free-solid-svg-icons'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'; 
+import { NavigationContainer } from '@react-navigation/native';  
+import { HomeScreen } from '../screens/HomeScreen';
+import { MapScreen } from '../screens/MapScreen';
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
+
+const Tab = createBottomTabNavigator();
 
 const BottomBar = ({ navigation }) => {
     return (
