@@ -8,9 +8,9 @@ const Tab = createBottomTabNavigator();
 const Home = ({ navigation }) => {
     return (
         <Tab.Navigator
-        screenOptions={({ route }) => ({
+            screenOptions={({ route }) => ({
 
-        })} 
+            })} 
         >
             <Tab.Screen 
                 name='HomeTab'
