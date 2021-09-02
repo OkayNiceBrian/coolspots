@@ -1,7 +1,7 @@
 //import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import TopBar from '../components/TopBar';
-import { ImageBackground, StyleSheet, StatusBar, View, Image, Text, TouchableHighlight, } from 'react-native';
+import { StyleSheet, View, Image, Text, TouchableHighlight, } from 'react-native';
 
 const WelcomeScreen = ({ navigation }) => {
     return (        
@@ -26,7 +26,7 @@ const WelcomeScreen = ({ navigation }) => {
             </TouchableHighlight>
             <TouchableHighlight 
                 style={{width: "100%"}} 
-                onPress={() => console.log("Register Pressed")}
+                onPress={() => onPressRegister()}
             >  
                 <View style={styles.registerButton}>
                     <Text style={styles.buttonText}>Register</Text>
@@ -38,6 +38,10 @@ const WelcomeScreen = ({ navigation }) => {
     function onPressLogin() {
         console.log("Login Button Pressed");
         navigation.navigate('Home');
+    }
+
+    function onPressRegister() {
+        console.log("Register Button Pressed");
     }
 }
 

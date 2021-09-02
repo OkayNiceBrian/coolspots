@@ -1,16 +1,13 @@
 // import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { NavigationContainer, StackActions } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import WelcomeScreen from './app/screens/WelcomeScreen';
-import MapScreen from './app/screens/MapScreen';
-import HomeScreen from './app/screens/HomeScreen';
-import BottomBar from './app/components/BottomBar';
-import MySpotsScreen from './app/screens/MySpotsScreen';
-import SettingsScreen from './app/screens/SettingsScreen';
-import { StyleSheet, Text, View, Image, SafeAreaView, Button, Alert} from 'react-native';
+import Home from './app/screens/Home';
 
 const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
 export default function App() {
   console.log("App Executing");
@@ -21,22 +18,12 @@ export default function App() {
         <Stack.Screen 
           name="Welcome"
           component={WelcomeScreen}
+          options={{ headerShown: false }}
         />
         <Stack.Screen 
           name="Home"
-          component={HomeScreen}
-        />
-        <Stack.Screen 
-          name="Map"
-          component={MapScreen}
-        />
-        <Stack.Screen
-          name="MySpots"
-          component={MySpotsScreen}
-        />
-        <Stack.Screen 
-          name="Settings"
-          component={SettingsScreen}
+          component={Home}
+          options={{ headerShown: false }}
         />
       </Stack.Navigator>
     </NavigationContainer>

@@ -14,7 +14,6 @@ function MapScreen(props) {
                 showsUserLocation={true}
                 showsMyLocationButton={true} 
             />
-            <BottomBar />
         </View>
     );
 }

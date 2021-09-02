@@ -1,9 +1,10 @@
 import React from 'react';
 import BottomBar from '../components/BottomBar';
 import TopBar from '../components/TopBar';
+import MapScreen from './MapScreen';
 import { View, StyleSheet, TouchableHighlight, Text } from 'react-native';
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = () => {
     return (
         <View style={styles.container}>
             <TopBar />
@@ -30,18 +31,15 @@ const HomeScreen = ({ navigation }) => {
                     </TouchableHighlight>
                 </View>
             </View>
-            <BottomBar />
         </View>
     );
 
     function onPressMySpots() {
         console.log("My Spots pressed.");
-        navigation.navigate('MySpots');
     }
     
     function onPressSettings() {
         console.log("Settings pressed.");
-        navigation.navigate('Settings');
     }
 }
 
