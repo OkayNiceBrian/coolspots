@@ -10,7 +10,6 @@ const SettingsScreen = ({ navigation }) => {
             <View style={styles.content}>
 
             </View>
-            <BottomBar />
         </View>
     );
 }

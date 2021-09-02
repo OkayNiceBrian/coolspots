@@ -4,7 +4,7 @@ import TopBar from '../components/TopBar';
 import MapScreen from './MapScreen';
 import { View, StyleSheet, TouchableHighlight, Text } from 'react-native';
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <TopBar />
@@ -36,10 +36,12 @@ const HomeScreen = () => {
 
     function onPressMySpots() {
         console.log("My Spots pressed.");
+        navigation.navigate('MySpotsStack');
     }
     
     function onPressSettings() {
         console.log("Settings pressed.");
+        navigation.navigate('SettingsStack');
     }
 }
 

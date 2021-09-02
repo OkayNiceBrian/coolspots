@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import WelcomeScreen from './app/screens/WelcomeScreen';
-import Home from './app/screens/Home';
+import HomeTab from './app/screens/HomeTab';
 import SpotViewScreen from './app/screens/SpotViewScreen';
 
 const Stack = createNativeStackNavigator();
@@ -23,8 +23,8 @@ export default function App() {
         />
         <Stack.Screen 
           name="Home"
-          component={Home}
-          options={{ headerShown: true }} // Change to false for production
+          component={HomeTab}
+          options={{ headerShown: false }} // Change to false for production
         />
       </Stack.Navigator>
     </NavigationContainer>

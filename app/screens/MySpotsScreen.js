@@ -19,12 +19,12 @@ const MySpotsScreen = ({ navigation }) => {
                     </TouchableHighlight>
                 </View>
             </View>
-            <BottomBar />
         </View>
     );
 
     function pressSpot() {
-        console.log("Spot Pressed")
+        console.log("Spot Pressed");
+        navigation.navigate('SpotViewStack');
     }
 }
 
