@@ -13,22 +13,20 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   console.log("App Executing");
 
-  return <SpotViewScreen />;
-
-  // return (
-  //   <NavigationContainer>
-  //     <Stack.Navigator>
-  //       <Stack.Screen 
-  //         name="Welcome"
-  //         component={WelcomeScreen}
-  //         options={{ headerShown: false }}
-  //       />
-  //       <Stack.Screen 
-  //         name="Home"
-  //         component={Home}
-  //         options={{ headerShown: true }} // Change to false for production
-  //       />
-  //     </Stack.Navigator>
-  //   </NavigationContainer>
-  // );
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen 
+          name="Welcome"
+          component={WelcomeScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen 
+          name="Home"
+          component={Home}
+          options={{ headerShown: true }} // Change to false for production
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 }
