@@ -5,14 +5,10 @@ import { View, StyleSheet, Text, TouchableHighlight } from 'react-native';
 function SpotViewScreen(props) {
     return (
         <View style={styles.container}>
-            <TopBar />
             <View style={styles.imageContainer}>
                 <Text>IMAGES</Text>
             </View>
             <View style={styles.content}>
-                <View style={styles.titleContainer}>
-                    <Text style={styles.titleText}>THIS SPOT TITLE</Text>
-                </View>
                 <View style={styles.descriptionContainer}>
                     <Text style={styles.descriptionText}>This is a spot. It is great. I love how great it is. 
                         Nothing better. If only I could have more of it.</Text>
@@ -23,13 +19,15 @@ function SpotViewScreen(props) {
                 <View style={styles.menu}>
                     <TouchableHighlight 
                         style={{width: '100%'}}
+                        onPress={() => PressViewLocation()}
                     >
-                        <View style={[styles.menuOption, {borderTopWidth: 3}]}>
+                        <View style={[styles.menuOption, {borderTopWidth: 2}]}>
                             <Text style={styles.menuText}>View Location</Text>
                         </View>
                     </TouchableHighlight>
                     <TouchableHighlight 
                         style={{width: '100%'}}
+                        onPress={() => PressOpenInMaps()}
                     >
                         <View style={styles.menuOption}>
                             <Text style={styles.menuText}>Open in Maps -{'>'}</Text>
@@ -37,6 +35,7 @@ function SpotViewScreen(props) {
                     </TouchableHighlight>
                     <TouchableHighlight 
                         style={{width: '100%'}}
+                        onPress={() => PressReportSpot()}
                     >
                         <View style={styles.menuOption}>
                             <Text style={styles.menuText}>Report Spot</Text>
@@ -46,6 +45,18 @@ function SpotViewScreen(props) {
             </View>
         </View>
     );
+}
+
+function PressViewLocation() {
+    console.log("View Location Pressed");
+}
+
+function PressOpenInMaps() {
+    console.log("Open In Maps Pressed");
+}
+
+function PressReportSpot() {
+    console.log("Report Spot Pressed");
 }
 
 const styles = StyleSheet.create({
@@ -68,7 +79,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         padding: 20,
-        paddingTop: 5,
     },
     descriptionText: {
         fontSize: 14,
@@ -92,7 +102,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#ececec',
-        borderBottomWidth: 3,
+        borderBottomWidth: 2,
         borderColor: '#d4d4d4',
     },
     menuText: {
@@ -109,15 +119,6 @@ const styles = StyleSheet.create({
         fontSize: 12,
         color: '#fff',
     },
-    titleContainer: {
-        width: '100%',
-        justifyContent: 'center',
-        alignItems: 'flex-start',
-        padding: 20,
-    },
-    titleText: {
-        fontSize: 20
-    }
 });
 
 export default SpotViewScreen;

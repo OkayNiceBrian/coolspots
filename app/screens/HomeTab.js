@@ -25,8 +25,7 @@ const HomeTab = ({ navigation }) => {
                 },
                 tabBarActiveTintColor: 'black',
                 tabBarInactiveTintColor: 'gray',
-                tabBarShowLabel: false,
-                
+                tabBarShowLabel: false,    
             })} 
         >
             <Tab.Screen 
