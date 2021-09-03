@@ -8,13 +8,17 @@ function SpotViewScreen(props) {
             <View style={styles.imageContainer}>
                 <Text>IMAGES</Text>
             </View>
+            <TopBar />
             <View style={styles.content}>
                 <View style={styles.descriptionContainer}>
                     <Text style={styles.descriptionText}>This is a spot. It is great. I love how great it is. 
                         Nothing better. If only I could have more of it.</Text>
                 </View>
                 <View style={styles.tagsContainer}>
-                    <Text style={styles.tagsText}>Skate Spot, Private, Great View</Text>
+                    <Text style={styles.tagsText}>#Skate Spot #Private #Great View</Text>
+                </View>
+                <View style={styles.tagsContainer}>
+                    <Text style={styles.tagsText}>Olympia, WA</Text>
                 </View>
                 <View style={styles.menu}>
                     <TouchableHighlight 
@@ -65,7 +69,7 @@ const styles = StyleSheet.create({
         height: 100,
         justifyContent: 'flex-start',
         alignItems: 'center',
-        backgroundColor: '#637c98',
+        backgroundColor: '#fff',
     },
     content: {
         width: '100%',
@@ -79,6 +83,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         padding: 20,
+        paddingBottom: 10,
     },
     descriptionText: {
         fontSize: 14,
@@ -113,11 +118,13 @@ const styles = StyleSheet.create({
         width: '100%',
         justifyContent: 'center',
         alignItems: 'flex-start',
-        padding: 8,
+        padding: 20,
+        paddingTop: 0,
+        paddingBottom: 10,
     },
     tagsText: {
         fontSize: 12,
-        color: '#fff',
+        color: '#000',
     },
 });
 
