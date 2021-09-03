@@ -13,7 +13,7 @@ const MySpotsScreen = ({ navigation }) => {
                         style={{width: '100%'}}
                         onPress={() => pressSpot()}
                     >
-                        <View style={[styles.menuOption, {borderTopWidth: 5}]}>
+                        <View style={[styles.menuOption, {borderTopWidth: 2}]}>
                             <Text style={styles.menuText}>Sample Spot</Text>
                         </View>
                     </TouchableHighlight>
@@ -54,8 +54,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#ececec',
-        borderWidth: 5,
-        borderTopWidth: 0,
+        borderBottomWidth: 2,
         borderColor: '#d4d4d4',
     },
     menuText: {
