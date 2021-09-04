@@ -1,4 +1,4 @@
-class Spot {
+export class Spot {
     constructor(id, name, description, tags, city, latitude, longitude, visible, userId) {
         this.id = id;
         this.name = name;
