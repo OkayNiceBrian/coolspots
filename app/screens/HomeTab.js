@@ -21,11 +21,12 @@ const HomeTab = ({ navigation }) => {
                         iconName = focused ? 'navigate' : 'navigate-outline';
                     }
 
-                    return <Ionicons name={iconName} size={iconSize} color={'black'} />
+                    return <Ionicons name={iconName} size={iconSize} color={'white'} />
                 },
                 tabBarActiveTintColor: 'black',
                 tabBarInactiveTintColor: 'gray',
-                tabBarShowLabel: false,    
+                tabBarShowLabel: false,
+                tabBarStyle: { backgroundColor: '#637c98' },
             })} 
         >
             <Tab.Screen 

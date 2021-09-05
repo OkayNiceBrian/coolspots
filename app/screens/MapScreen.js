@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-import Spot from '../models/Spot';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import TopBar from '../components/TopBar';
+import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import { StyleSheet, View, Text } from 'react-native';
 import { apiUrl } from '../../global';
 
 function MapScreen(props) {
     const spotList = fetchAllSpots();
+    const markerList = createMarkerList(spotList);
     return (
         <View style={styles.container}>
+            <TopBar />
             <MapView 
                 provider={PROVIDER_GOOGLE}
                 style={styles.map}
@@ -31,9 +33,28 @@ async function fetchAllSpots() {
                 spotList[i] = spotData;
             }
         });
-    console.log(spotList);
     return spotList;
 }
+
+function createMarkerList(spotList) {
+    const markerList = [];
+    for (let i = 0; i < spotList.length; i++) {
+        let latlng = {
+            latitude: spotList[i].latitude,
+            longitude: spotList[i].longitude,
+        };
+        markerList.push(
+            <Marker 
+                key={spotList[i].id}
+                coordinate={latlng}
+                title={spotList[i].name}
+                description={spotList[i].description}
+            />
+        );
+    }
+    console.log(markerList);
+    return markerList;
+} 
 
 const styles = StyleSheet.create({
     container: {
