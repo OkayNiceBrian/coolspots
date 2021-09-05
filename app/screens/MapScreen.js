@@ -5,8 +5,6 @@ import { StyleSheet, View, Text } from 'react-native';
 import { apiUrl } from '../../global';
 
 function MapScreen(props) {
-    const spotList = fetchAllSpots();
-    const markerList = createMarkerList(spotList);
     return (
         <View style={styles.container}>
             <TopBar />
@@ -16,12 +14,13 @@ function MapScreen(props) {
                 showsUserLocation={true}
                 showsMyLocationButton={true} 
             >
+
             </MapView>
         </View>
     );
 }
 
-async function fetchAllSpots() {
+async function fetchAllSpotsAndReturnMarkers() {
     const spotsUrl = apiUrl + "/spots";
     const spotList = [];
     
@@ -33,11 +32,12 @@ async function fetchAllSpots() {
                 spotList[i] = spotData;
             }
         });
-    return spotList;
+    const markerList = createMarkerList(spotList);
+    return markerList;
 }
 
 function createMarkerList(spotList) {
-    const markerList = [];
+    let markerList = [];
     for (let i = 0; i < spotList.length; i++) {
         let latlng = {
             latitude: spotList[i].latitude,
@@ -52,7 +52,6 @@ function createMarkerList(spotList) {
             />
         );
     }
-    console.log(markerList);
     return markerList;
 } 
 
