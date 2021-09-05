@@ -8,7 +8,6 @@ function SpotViewScreen(props) {
             <View style={styles.imageContainer}>
                 <Text>IMAGES</Text>
             </View>
-            <TopBar />
             <View style={styles.content}>
                 <View style={styles.descriptionContainer}>
                     <Text style={styles.descriptionText}>This is a spot. It is great. I love how great it is. 

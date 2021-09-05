@@ -1,20 +1,18 @@
 import React, { useState } from 'react';
-import TopBar from '../components/TopBar';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import { StyleSheet, View, Text } from 'react-native';
 import { apiUrl } from '../../global';
+import { SpotMarkerList } from '../components/SpotMarkerList';
 
 function MapScreen(props) {
     return (
         <View style={styles.container}>
-            <TopBar />
             <MapView 
                 provider={PROVIDER_GOOGLE}
                 style={styles.map}
                 showsUserLocation={true}
                 showsMyLocationButton={true} 
             >
-
             </MapView>
         </View>
     );
