@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './HomeScreen';
 import HomeStack from './HomeStack';
 import MapScreen from './MapScreen';
+import MapStack from './MapStack';
 
 const Tab = createBottomTabNavigator();
 
@@ -36,7 +37,7 @@ const HomeTab = ({ navigation }) => {
             />
             <Tab.Screen 
                 name='MapTab'
-                component={MapScreen}
+                component={MapStack}
                 options={{ headerShown: false }}
             />
         </Tab.Navigator>

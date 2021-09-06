@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
+import MapView, { PROVIDER_GOOGLE, Marker, Callout } from 'react-native-maps';
 import { StyleSheet, View, Text, ActivityIndicator } from 'react-native';
 import { apiUrl } from '../../global';
 
-function MapScreen(props) {
+const MapScreen = ({ navigation }) => {
     const [isLoading, setLoading] = useState(true);
     const [spotList, setData] = useState([]);
 
+    // Asynchronously gets a list of all spots from the api
     const getSpots = async () => {
         try {
             const spotsUrl = apiUrl + "/spots";
@@ -20,10 +21,12 @@ function MapScreen(props) {
         }
     }
 
+    // Automatically called asynchronously to get the spots
     useEffect(() => {
         getSpots();
     }, []);
 
+    // Returns all the spots as marker components
     const spotMarkers = () => {
         return spotList.map((spot, index) => (
             <Marker 
@@ -31,6 +34,7 @@ function MapScreen(props) {
                 coordinate={{ latitude: spot.latitude, longitude: spot.longitude }}
                 title={spot.name}
                 description={spot.description}
+                onCalloutPress={() => pressCallout()}
             />
         ))
     }
@@ -47,9 +51,12 @@ function MapScreen(props) {
             </MapView>
         </View>
     );
+
+    function pressCallout() {
+        console.log("Callout Pressed");
+        navigation.navigate("SpotViewStack");
+    }
 }
-
-
 
 const styles = StyleSheet.create({
     container: {
