@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import MapView, { PROVIDER_GOOGLE, Marker, Callout } from 'react-native-maps';
 import { StyleSheet, View, Text, ActivityIndicator } from 'react-native';
 import { apiUrl } from '../../global';
+import { Spot } from '../models/Spot';
 
 const MapScreen = ({ navigation }) => {
     const [isLoading, setLoading] = useState(true);
@@ -34,7 +35,7 @@ const MapScreen = ({ navigation }) => {
                 coordinate={{ latitude: spot.latitude, longitude: spot.longitude }}
                 title={spot.name}
                 description={spot.description}
-                onCalloutPress={() => pressCallout()}
+                onCalloutPress={() => pressCallout(spot)}
             />
         ))
     }
@@ -52,9 +53,20 @@ const MapScreen = ({ navigation }) => {
         </View>
     );
 
-    function pressCallout() {
+    function pressCallout(spotData) {
         console.log("Callout Pressed");
-        navigation.navigate("SpotViewStack");
+        let spotModel = new Spot(
+            spotData.id,
+            spotData.name,
+            spotData.description,
+            spotData.tags,
+            spotData.city,
+            spotData.latitude,
+            spotData.longitude,
+            spotData.visible,
+            spotData.userId
+            );
+        navigation.navigate("SpotViewStack", { spotModel });
     }
 }
 

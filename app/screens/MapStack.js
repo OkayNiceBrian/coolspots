@@ -16,6 +16,7 @@ function MapStack(props) {
             <Stack.Screen 
                 name={"SpotViewStack"}
                 component={SpotViewScreen}
+                options={({ route }) => ({ title: route.params.spotModel.name })}
             />
         </Stack.Navigator>
     );

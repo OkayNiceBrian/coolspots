@@ -1,8 +1,13 @@
 import React from 'react';
 import TopBar from '../components/TopBar';
+import Spot from '../models/Spot';
 import { View, StyleSheet, Text, TouchableHighlight } from 'react-native';
+import { render } from 'react-dom';
 
-function SpotViewScreen(props) {
+const SpotViewScreen = ({ navigation, route }) => {
+    // The Spot Model with all spot data passed from the previous screen
+    const spotModel = route.params.spotModel;
+
     return (
         <View style={styles.container}>
             <View style={styles.imageContainer}>
@@ -10,14 +15,13 @@ function SpotViewScreen(props) {
             </View>
             <View style={styles.content}>
                 <View style={styles.descriptionContainer}>
-                    <Text style={styles.descriptionText}>This is a spot. It is great. I love how great it is. 
-                        Nothing better. If only I could have more of it.</Text>
+                    <Text style={styles.descriptionText}>{spotModel.description}</Text>
                 </View>
                 <View style={styles.tagsContainer}>
-                    <Text style={styles.tagsText}>#Skate Spot #Private #Great View</Text>
+                    {renderTags()}
                 </View>
                 <View style={styles.tagsContainer}>
-                    <Text style={styles.tagsText}>Olympia, WA</Text>
+                    <Text style={styles.tagsText}>{spotModel.city}</Text>
                 </View>
                 <View style={styles.menu}>
                     <TouchableHighlight 
@@ -47,7 +51,16 @@ function SpotViewScreen(props) {
                 </View>
             </View>
         </View>
+
     );
+
+    function renderTags() {
+        let tagString = "";
+        for (let tag of spotModel.tags) {
+            tagString += ("#" + tag + " ");
+        }
+        return (<Text style={styles.tagsText}>{tagString}</Text>);
+    }
 }
 
 function PressViewLocation() {
@@ -61,6 +74,8 @@ function PressOpenInMaps() {
 function PressReportSpot() {
     console.log("Report Spot Pressed");
 }
+
+
 
 const styles = StyleSheet.create({
     container: {
@@ -80,7 +95,7 @@ const styles = StyleSheet.create({
     descriptionContainer: {
         width: '100%',
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'flex-start',
         padding: 20,
         paddingBottom: 10,
     },
