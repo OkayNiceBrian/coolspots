@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import MapView, { PROVIDER_GOOGLE, Marker, Callout } from 'react-native-maps';
-import { StyleSheet, View, Text, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, Text, ActivityIndicator, Platform } from 'react-native';
 import { apiUrl } from '../../global';
 import { Spot } from '../models/Spot';
 
@@ -35,7 +35,8 @@ const MapScreen = ({ navigation }) => {
                 coordinate={{ latitude: spot.latitude, longitude: spot.longitude }}
                 title={spot.name}
                 description={spot.description}
-                onCalloutPress={() => pressCallout(spot)}
+                onPress={Platform.OS === 'ios' ? () => pressCallout(spot) : null}
+                onCalloutPress={Platform.OS === 'android' ? () => pressCallout(spot) : null}
             />
         ))
     }
