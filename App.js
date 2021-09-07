@@ -9,7 +9,7 @@ import HomeTab from './app/screens/HomeTab';
 import * as SecureStore from 'expo-secure-store';
 
 const Stack = createNativeStackNavigator();
-const AuthContext = React.createContext();
+export const AuthContext = React.createContext();
 
 export default function App() {
   console.log("App Executing");

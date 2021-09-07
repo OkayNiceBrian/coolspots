@@ -2,12 +2,13 @@
 import React, { useState, useContext } from 'react';
 import TopBar from '../components/TopBar';
 import { StyleSheet, View, Image, Text, TouchableHighlight, TextInput, } from 'react-native';
+import { AuthContext } from '../../App';
 
 const WelcomeScreen = ({ navigation }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    // const { signIn } = useContext(AuthContext);
+    const { signIn } = useContext(AuthContext);
 
     return (        
         <View 
@@ -57,6 +58,7 @@ const WelcomeScreen = ({ navigation }) => {
 
     function onPressLogin(username, password) {
         console.log("Login Button Pressed");
+        signIn({ username, password });
     }
 
     function onPressRegister(username, password) {
