@@ -35,8 +35,7 @@ const MapScreen = ({ navigation }) => {
                 coordinate={{ latitude: spot.latitude, longitude: spot.longitude }}
                 title={spot.name}
                 description={spot.description}
-                onPress={Platform.OS === 'ios' ? () => pressCallout(spot) : null}
-                onCalloutPress={Platform.OS === 'android' ? () => pressCallout(spot) : null}
+                onCalloutPress={() => pressCallout(spot)}
             />
         ))
     }
@@ -44,7 +43,7 @@ const MapScreen = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <MapView 
-                provider={PROVIDER_GOOGLE}
+                //provider={PROVIDER_GOOGLE}
                 style={styles.map}
                 showsUserLocation={true}
                 showsMyLocationButton={true} 
