@@ -24,7 +24,7 @@ const WelcomeScreen = ({ navigation }) => {
                 <View style={styles.loginContainer}>
                     <TextInput 
                         style={styles.loginText}
-                        placeholder="Username"
+                        placeholder="Email"
                         value={username}
                         onChangeText={setUsername}
                     />

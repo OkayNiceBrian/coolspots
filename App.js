@@ -7,6 +7,7 @@ import WelcomeScreen from './app/screens/WelcomeScreen';
 import SplashScreen from './app/screens/SplashScreen';
 import HomeTab from './app/screens/HomeTab';
 import * as SecureStore from 'expo-secure-store';
+import NewSpotScreen from './app/screens/NewSpotScreen';
 
 const Stack = createNativeStackNavigator();
 export const AuthContext = React.createContext();
@@ -101,10 +102,15 @@ export default function App() {
                 options={{ animationEnabled: false }}
               />
           ) : state.userToken === null ? (
+              // <Stack.Screen 
+              //   name="Welcome"
+              //   component={WelcomeScreen}
+              //   options={{ headerShown: false, animationEnabled: false }}
+              // />
               <Stack.Screen 
-                name="Welcome"
-                component={WelcomeScreen}
-                options={{ headerShown: false, animationEnabled: false }}
+                name="DELETEME"
+                component={NewSpotScreen}
+                options={{ headerShown: false }}
               />
           ) : (
             <Stack.Screen 
