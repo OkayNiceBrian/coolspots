@@ -6,17 +6,19 @@ function NewSpotScreen(props) {
     return (
         <View style={styles.container}>
             <TopBar />
-            <View style={styles.inputContainer}>
-                <Text style={styles.inputText}>Spot Name</Text>
-                <TextInput style={styles.inputText}>hi</TextInput>
-            </View>
-            <View style={styles.inputContainer}>
-                <Text style={styles.inputText}>Description</Text>
-                <TextInput style={styles.inputText}>hi</TextInput>
-            </View>
-            <View style={styles.inputContainer}>
-                <Text style={styles.inputText}>Tags</Text>
-                <TextInput style={styles.inputText}>hi</TextInput>
+            <View style={styles.content}>
+                <View style={styles.inputContainer}>
+                    <Text style={styles.inputText}>Spot Name</Text>
+                    <TextInput style={styles.inputText}>hi</TextInput>
+                </View>
+                <View style={styles.inputContainer}>
+                    <Text style={styles.inputText}>Description</Text>
+                    <TextInput style={styles.inputText}>hi</TextInput>
+                </View>
+                <View style={styles.inputContainer}>
+                    <Text style={styles.inputText}>Tags</Text>
+                    <TextInput style={styles.inputText}>hi</TextInput>
+                </View>
             </View>
         </View>
     );
@@ -29,13 +31,19 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'flex-start',
     },
-    inputContainer: {
+    content: {
         flex: 1,
-        height: 100,
+        width: '100%',
+        height: '100%',
+    },
+    inputContainer: {
+        height: 40,
+        width: '100%',
+        backgroundColor: '#323232',
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center',
-        padding: 20,
+        padding: 30,
     },
     inputText: {
         color: '#fff',

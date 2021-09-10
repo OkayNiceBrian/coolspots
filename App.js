@@ -102,15 +102,10 @@ export default function App() {
                 options={{ animationEnabled: false }}
               />
           ) : state.userToken === null ? (
-              // <Stack.Screen 
-              //   name="Welcome"
-              //   component={WelcomeScreen}
-              //   options={{ headerShown: false, animationEnabled: false }}
-              // />
               <Stack.Screen 
-                name="DELETEME"
-                component={NewSpotScreen}
-                options={{ headerShown: false }}
+                name="Welcome"
+                component={WelcomeScreen}
+                options={{ headerShown: false, animationEnabled: false }}
               />
           ) : (
             <Stack.Screen 
