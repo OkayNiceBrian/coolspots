@@ -2,13 +2,8 @@
 import React, { useState, useContext } from 'react';
 import TopBar from '../components/TopBar';
 import { StyleSheet, View, Image, Text, TouchableHighlight, TextInput, } from 'react-native';
-import { AuthContext } from '../../App';
 
 const WelcomeScreen = ({ navigation }) => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-
-    const { signIn } = useContext(AuthContext);
 
     return (        
         <View 
@@ -25,21 +20,16 @@ const WelcomeScreen = ({ navigation }) => {
                     <TextInput 
                         style={styles.loginText}
                         placeholder="Email"
-                        value={username}
-                        onChangeText={setUsername}
                     />
                     <TextInput 
                         style={styles.loginText}
                         placeholder="Password"
-                        value={password}
-                        onChangeText={setPassword}
                         secureTextEntry
                     />
                 </View>
             </View>
             <TouchableHighlight 
                 style={{width: "100%"}} 
-                onPress={() => onPressLogin({ username, password })}
             >
                 <View style={styles.loginButton}>
                     <Text style={styles.buttonText}>Login</Text>
@@ -47,7 +37,6 @@ const WelcomeScreen = ({ navigation }) => {
             </TouchableHighlight>
             <TouchableHighlight 
                 style={{width: "100%"}} 
-                onPress={() => onPressRegister({ username, password })}
             >  
                 <View style={styles.registerButton}>
                     <Text style={styles.buttonText}>Register</Text>
@@ -58,7 +47,6 @@ const WelcomeScreen = ({ navigation }) => {
 
     function onPressLogin(username, password) {
         console.log("Login Button Pressed");
-        signIn({ username, password });
     }
 
     function onPressRegister(username, password) {
