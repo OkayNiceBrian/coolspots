@@ -1,8 +1,41 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import TopBar from '../components/TopBar';
 import { TouchableHighlight, StyleSheet, View, Text } from 'react-native';
+import * as SecureStore from 'expo-secure-store';
 
 const MySpotsScreen = ({ navigation }) => {
+    const [isLoading, setLoading] = useState(true);
+    const [mySpotIds, setMySpotIds] = useState([]);
+    const [mySpots, setMySpots] = useState([]);
+
+    async function saveSpotToMySpots(spotId) {
+        await SecureStore.setItemAsync("mySpots", [spotId].toString());
+    }
+
+    async function getMySpotIds() {
+        let spots = await SecureStore.getItemAsync("mySpots");
+        if (spots) {
+            setMySpotIds(spots);
+            console.log("MySpots retrieved successfully");
+            setLoading(false);
+        } else {
+            console.log("MySpots NOT retrieved successfully");
+        }
+    }
+
+    async function getMySpotsFromApi() {
+        let spotIdList = [];
+    }
+
+    useEffect(() => {
+        saveSpotToMySpots([3, 4]);
+        getMySpotIds();
+    }, []);
+
+    if (!isLoading) {
+        console.log(mySpotIds);
+    }
+
     return (
         <View style={styles.container}>
             <TopBar />
