@@ -8,6 +8,10 @@ const MapScreen = ({ navigation }) => {
     const [isLoading, setLoading] = useState(true);
     const [spotList, setData] = useState([]);
 
+    if (!isLoading) {
+        console.log(spotList);
+    }
+
     // Asynchronously gets a list of all spots from the api
     const getSpots = async () => {
         try {
@@ -16,7 +20,7 @@ const MapScreen = ({ navigation }) => {
             const json = await response.json();
             setData(json._embedded.spots);
         } catch (err) {
-            console.error(error);
+            console.error(err);
         } finally {
             setLoading(false);
         }
