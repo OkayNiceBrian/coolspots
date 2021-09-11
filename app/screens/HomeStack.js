@@ -18,14 +18,17 @@ function HomeStack(props) {
             <Stack.Screen 
                 name='MySpotsStack'
                 component={MySpotsScreen}
+                options={{ title: "My Saved Spots" }}
             />
             <Stack.Screen 
                 name='SettingsStack'
                 component={SettingsScreen}
+                options={{ title: "Settings" }}
             />
             <Stack.Screen 
                 name='SpotViewStack'
                 component={SpotViewScreen}
+                options={({ route }) => ({ title: route.params.spotModel.name })}
             />
         </Stack.Navigator>
     );

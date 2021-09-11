@@ -4,7 +4,6 @@ import TopBar from '../components/TopBar';
 import { StyleSheet, View, Image, Text, TouchableHighlight, TextInput, } from 'react-native';
 
 const WelcomeScreen = ({ navigation }) => {
-
     return (        
         <View 
             style={styles.background}
@@ -16,20 +15,10 @@ const WelcomeScreen = ({ navigation }) => {
                     style={styles.logo}
                 />
                 <Text style={styles.tagline}>CoolSpots</Text>
-                <View style={styles.loginContainer}>
-                    <TextInput 
-                        style={styles.loginText}
-                        placeholder="Email"
-                    />
-                    <TextInput 
-                        style={styles.loginText}
-                        placeholder="Password"
-                        secureTextEntry
-                    />
-                </View>
             </View>
             <TouchableHighlight 
                 style={{width: "100%"}} 
+                onPress={() => onPressLogin()}
             >
                 <View style={styles.loginButton}>
                     <Text style={styles.buttonText}>Login</Text>
@@ -37,6 +26,7 @@ const WelcomeScreen = ({ navigation }) => {
             </TouchableHighlight>
             <TouchableHighlight 
                 style={{width: "100%"}} 
+                onPress={() => onPressRegister()}
             >  
                 <View style={styles.registerButton}>
                     <Text style={styles.buttonText}>Register</Text>
@@ -45,11 +35,12 @@ const WelcomeScreen = ({ navigation }) => {
         </View>
     );
 
-    function onPressLogin(username, password) {
+    function onPressLogin() {
         console.log("Login Button Pressed");
+        navigation.navigate("Home");
     }
 
-    function onPressRegister(username, password) {
+    function onPressRegister() {
         console.log("Register Button Pressed");
     }
 }
@@ -72,18 +63,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderColor: 'white',
-    },
-    loginContainer: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingTop: 50
-    },
-    loginText: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 16,
-        color: '#fff',
-        margin: 10,
     },
     logo: {
         width: 100,
