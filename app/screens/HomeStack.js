@@ -4,6 +4,7 @@ import HomeScreen from './HomeScreen';
 import MySpotsScreen from './MySpotsScreen';
 import SettingsScreen from './SettingsScreen';
 import SpotViewScreen from './SpotViewScreen';
+import NewSpotScreen from './NewSpotScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,6 +20,11 @@ function HomeStack(props) {
                 name='MySpotsStack'
                 component={MySpotsScreen}
                 options={{ title: "My Saved Spots" }}
+            />
+            <Stack.Screen 
+                name ='NewSpotStack'
+                component={NewSpotScreen}
+                options={{ title: "New Spot" }}
             />
             <Stack.Screen 
                 name='SettingsStack'

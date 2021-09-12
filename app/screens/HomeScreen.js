@@ -23,6 +23,14 @@ const HomeScreen = ({ navigation }) => {
                     </TouchableHighlight>
                     <TouchableHighlight 
                         style={{width: '100%'}}
+                        onPress={() => onPressNewSpot()}
+                    >
+                        <View style={styles.menuOption}>
+                            <Text style={styles.menuText}>Create a New Spot</Text>
+                        </View>
+                    </TouchableHighlight>
+                    <TouchableHighlight 
+                        style={{width: '100%'}}
                         onPress={() => onPressSettings()}
                     >
                         <View style={styles.menuOption}>
@@ -35,12 +43,17 @@ const HomeScreen = ({ navigation }) => {
     );
 
     function onPressMySpots() {
-        console.log("My Spots pressed.");
+        console.log("My Spots Pressed");
         navigation.navigate('MySpotsStack');
+    }
+
+    function onPressNewSpot() {
+        console.log("New Spot Pressed");
+        navigation.navigate('NewSpotStack');
     }
     
     function onPressSettings() {
-        console.log("Settings pressed.");
+        console.log("Settings Pressed");
         navigation.navigate('SettingsStack');
     }
 }
