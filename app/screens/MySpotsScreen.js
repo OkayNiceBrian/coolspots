@@ -36,22 +36,28 @@ const MySpotsScreen = ({ navigation }) => {
 
         let spotObjList = [];
         try {
-            for (let spotId of spotIdList) {
-                const spotUrl = apiUrl + "/spots/" + spotId.toString();
-                const response = await fetch(spotUrl, {signal: abortController.signal});
-                const json = await response.json();
-                const newSpot = new Spot(
-                    json.id,
-                    json.name,
-                    json.description,
-                    json.tags,
-                    json.city,
-                    json.latitude,
-                    json.longitude,
-                    json.visible,
-                    json.userId
-                );
-                spotObjList.push(newSpot)
+            const spotUrl = apiUrl + "/spots";
+            const response = await fetch(spotUrl, {signal: abortController.signal});
+            const json = await response.json();
+            const spotsArr = json._embedded.spots;
+            for (let spot of spotsArr) {
+                for (let spotId of spotIdList) {
+                    if (spot.id == spotId) {
+                        const newSpot = new Spot(
+                            spot.id,
+                            spot.name,
+                            spot.description,
+                            spot.tags,
+                            spot.city,
+                            spot.latitude,
+                            spot.longitude,
+                            spot.visible,
+                            spot.userId
+                        );
+                        spotObjList.push(newSpot)
+                        break;
+                    }
+                }
             }
         } catch (err) {
             console.error(err);
