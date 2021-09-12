@@ -1,39 +1,93 @@
 import React, { useState, useEffect } from 'react';
 import TopBar from '../components/TopBar';
-import { TouchableHighlight, StyleSheet, View, Text } from 'react-native';
+import { TouchableHighlight, StyleSheet, View, Text, ActivityIndicator } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
+import { apiUrl } from '../../global';
+import { Spot } from '../models/Spot';
 
 const MySpotsScreen = ({ navigation }) => {
-    const [isLoading, setLoading] = useState(true);
+    const [isLocalLoading, setLocalLoading] = useState(true);
+    const [isApiLoading, setApiLoading] = useState(true);
     const [mySpotIds, setMySpotIds] = useState([]);
     const [mySpots, setMySpots] = useState([]);
 
-    async function saveSpotToMySpots(spotId) {
-        await SecureStore.setItemAsync("mySpots", [spotId].toString());
+    async function saveSpotToMySpots(spotIds) {
+        await SecureStore.setItemAsync("mySpots", spotIds.toString());
     }
 
     async function getMySpotIds() {
         let spots = await SecureStore.getItemAsync("mySpots");
         if (spots) {
             setMySpotIds(spots);
-            console.log("MySpots retrieved successfully");
-            setLoading(false);
+            setLocalLoading(false);
+            console.log("MySpotIds retrieved successfully!")
         } else {
-            console.log("MySpots NOT retrieved successfully");
+            console.log("MySpotIds NOT retrieved successfully");
         }
     }
 
-    async function getMySpotsFromApi() {
+    async function getMySpotsFromApi(abortController) {
         let spotIdList = [];
+        for (let c of mySpotIds) {
+            if (c != ',') {
+                spotIdList.push(c);
+            }
+        }
+
+        let spotObjList = [];
+        try {
+            for (let spotId of spotIdList) {
+                const spotUrl = apiUrl + "/spots/" + spotId.toString();
+                const response = await fetch(spotUrl, {signal: abortController.signal});
+                const json = await response.json();
+                const newSpot = new Spot(
+                    json.id,
+                    json.name,
+                    json.description,
+                    json.tags,
+                    json.city,
+                    json.latitude,
+                    json.longitude,
+                    json.visible,
+                    json.userId
+                );
+                spotObjList.push(newSpot)
+            }
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setMySpots(spotObjList);
+            setApiLoading(false);
+        }
     }
 
     useEffect(() => {
+        const abortController = new AbortController();
         saveSpotToMySpots([3, 4]);
-        getMySpotIds();
-    }, []);
+        if (isLocalLoading) {
+            getMySpotIds();
+        }
+        if (!isLocalLoading && isApiLoading){
+            getMySpotsFromApi(abortController);
+        }
+    });
 
-    if (!isLoading) {
-        console.log(mySpotIds);
+    const renderMySpotOptions = () => {
+        if (!isApiLoading) {
+            return mySpots.map((spot, index) => (
+                <TouchableHighlight 
+                    key={index}
+                    style={{width: '100%'}}
+                    onPress={() => pressSpot(spot)}
+                >
+                    <View style={[styles.menuOption, {borderTopWidth: 2}]}>
+                        <Text style={styles.menuText}>{spot.name}</Text>
+                    </View>
+                </TouchableHighlight>
+            ))
+        }
+
+        return <Text>Loading...</Text>;
     }
 
     return (
@@ -41,22 +95,17 @@ const MySpotsScreen = ({ navigation }) => {
             <TopBar />
             <View style={styles.content}>
                 <View style={styles.menu}>
-                    <TouchableHighlight 
-                        style={{width: '100%'}}
-                        onPress={() => pressSpot()}
-                    >
-                        <View style={[styles.menuOption, {borderTopWidth: 2}]}>
-                            <Text style={styles.menuText}>Sample Spot</Text>
-                        </View>
-                    </TouchableHighlight>
+                    { renderMySpotOptions() }
                 </View>
             </View>
         </View>
     );
 
-    function pressSpot() {
+    
+
+    function pressSpot(spotModel) {
         console.log("Spot Pressed");
-        navigation.navigate('SpotViewStack');
+        navigation.navigate('SpotViewStack', { spotModel });
     }
 }
 
