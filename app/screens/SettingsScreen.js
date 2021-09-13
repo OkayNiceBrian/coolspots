@@ -1,6 +1,5 @@
 import React from 'react';
-import TopBar from '../components/TopBar'
-import BottomBar from '../components/BottomBar'
+import TopBar from '../components/TopBar';
 import { StyleSheet, View, Text } from 'react-native';
 
 const SettingsScreen = ({ navigation }) => {

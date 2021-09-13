@@ -1,5 +1,4 @@
 import React from 'react';
-import BottomBar from '../components/BottomBar';
 import TopBar from '../components/TopBar';
 import MapScreen from './MapScreen';
 import { View, StyleSheet, TouchableHighlight, Text } from 'react-native';
