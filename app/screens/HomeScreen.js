@@ -26,7 +26,7 @@ const HomeScreen = ({ navigation }) => {
                         onPress={() => onPressNewSpot()}
                     >
                         <View style={styles.menuOption}>
-                            <Text style={styles.menuText}>Create a New Spot</Text>
+                            <Text style={styles.menuText}>Create New Spot</Text>
                         </View>
                     </TouchableHighlight>
                     <TouchableHighlight 

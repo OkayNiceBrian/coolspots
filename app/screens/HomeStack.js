@@ -24,7 +24,7 @@ function HomeStack(props) {
             <Stack.Screen 
                 name ='NewSpotStack'
                 component={NewSpotScreen}
-                options={{ title: "New Spot" }}
+                options={{ title: "Create New Spot" }}
             />
             <Stack.Screen 
                 name='SettingsStack'
