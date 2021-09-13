@@ -8,16 +8,23 @@ function NewSpotScreen(props) {
             <TopBar />
             <View style={styles.content}>
                 <View style={styles.inputContainer}>
-                    <Text style={styles.inputText}>Spot Name</Text>
-                    <TextInput style={styles.inputText}>hi</TextInput>
+                    <Text style={styles.fieldText}>Spot Name</Text>
+                    <TextInput 
+                        style={styles.inputText}
+                        placeholder="Name"
+                    />
                 </View>
                 <View style={styles.inputContainer}>
-                    <Text style={styles.inputText}>Description</Text>
-                    <TextInput style={styles.inputText}>hi</TextInput>
+                    <Text style={styles.fieldText}>Description</Text>
+                    <TextInput style={styles.inputText}/>
                 </View>
                 <View style={styles.inputContainer}>
-                    <Text style={styles.inputText}>Tags</Text>
-                    <TextInput style={styles.inputText}>hi</TextInput>
+                    <Text style={styles.fieldText}>Tags</Text>
+                    <TextInput style={styles.inputText}/>
+                </View>
+                <View style={styles.inputContainer}>
+                    <Text style={styles.fieldText}>City</Text>
+                    <TextInput style={styles.inputText}/>
                 </View>
             </View>
         </View>
@@ -36,6 +43,12 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
     },
+    fieldText: {
+        color: '#fff',
+        fontSize: 15,
+        padding: 20,
+        width: 150,
+    },
     inputContainer: {
         height: 40,
         width: '100%',
@@ -48,8 +61,11 @@ const styles = StyleSheet.create({
     inputText: {
         color: '#fff',
         fontSize: 15,
-        padding: 40,
-    }
+        padding: 20,
+        width: 150,
+        borderBottomWidth: 1,
+        borderColor: '#fff',
+    },
 })
 
 export default NewSpotScreen;

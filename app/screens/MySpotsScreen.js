@@ -78,7 +78,7 @@ const MySpotsScreen = ({ navigation }) => {
         }
     });
 
-    const renderMySpotOptions = () => {
+    function renderMySpotOptions() {
         if (!isApiLoading) {
             return mySpots.map((spot, index) => (
                 <TouchableHighlight 
@@ -106,8 +106,6 @@ const MySpotsScreen = ({ navigation }) => {
             </View>
         </View>
     );
-
-    
 
     function pressSpot(spotModel) {
         console.log("Spot Pressed");
