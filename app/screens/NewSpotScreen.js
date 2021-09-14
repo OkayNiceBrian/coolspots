@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import TopBar from '../components/TopBar';
 import { apiUrl } from '../../global';
 import { Spot } from '../models/Spot';
-import { View, StyleSheet, TextInput, Text, TouchableHighlight, Switch } from 'react-native';
+import { View, StyleSheet, TextInput, Text, TouchableHighlight, Switch, Button } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
-import { NavigationContainer } from '@react-navigation/native';
+import * as Location from 'expo-location';
 
 function NewSpotScreen({ navigation }) {
     const [name, setName] = useState("");
@@ -76,11 +76,18 @@ function NewSpotScreen({ navigation }) {
                     />
                 </View>
                 <View style={styles.inputContainer}>
+                    <Text style={styles.fieldText}>Location</Text>
+                    <Button 
+                        title="Use Current Location"
+                    />
+                </View>
+                <View style={styles.inputContainer}>
                     <Text style={styles.fieldText}>Latitude</Text>
                     <TextInput 
                         style={styles.inputText}
                         placeholder="Latitude"
                         maxLength={9}
+                        editable={false}
                         onChangeText={setLatitude}
                         value={latitude}
                     />
@@ -91,6 +98,7 @@ function NewSpotScreen({ navigation }) {
                         style={styles.inputText}
                         placeholder="Longitude"
                         maxLength={9}
+                        editable={false}
                         onChangeText={setLongitude}
                         value={longitude}
                     />
