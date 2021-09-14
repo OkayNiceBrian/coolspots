@@ -11,14 +11,11 @@ const MySpotsScreen = ({ navigation }) => {
     const [mySpotIds, setMySpotIds] = useState([]);
     const [mySpots, setMySpots] = useState([]);
 
-    async function saveSpotToMySpots(spotIds) {
-        await SecureStore.setItemAsync("mySpots", spotIds.toString());
-    }
-
     async function getMySpotIds() {
         let spots = await SecureStore.getItemAsync("mySpots");
         if (spots) {
-            setMySpotIds(spots);
+            console.log(spots);
+            setMySpotIds(JSON.parse(spots));
             setLocalLoading(false);
             console.log("MySpotIds retrieved successfully!")
         } else {
@@ -69,7 +66,6 @@ const MySpotsScreen = ({ navigation }) => {
 
     useEffect(() => {
         const abortController = new AbortController();
-        saveSpotToMySpots([3, 4]);
         if (isLocalLoading) {
             getMySpotIds();
         }

@@ -3,8 +3,10 @@ import TopBar from '../components/TopBar';
 import { apiUrl } from '../../global';
 import { Spot } from '../models/Spot';
 import { View, StyleSheet, TextInput, Text, TouchableHighlight, Switch } from 'react-native';
+import * as SecureStore from 'expo-secure-store';
+import { NavigationContainer } from '@react-navigation/native';
 
-function NewSpotScreen(props) {
+function NewSpotScreen({ navigation }) {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [tags, setTags] = useState([]);
@@ -13,6 +15,28 @@ function NewSpotScreen(props) {
     const [latitude, setLatitude] = useState();
     const [longitude, setLongitude] = useState();
     const [visible, setVisible] = useState(true);
+    const [addToMySpots, setAddToMySpots] = useState(true);
+
+    const [isLocalLoading, setLocalLoading] = useState(true);
+    const [mySpotIds, setMySpotIds] = useState([]);
+
+    async function getMySpotIds() {
+        let spots = await SecureStore.getItemAsync("mySpots");
+        if (spots) {
+            console.log(spots);
+            setMySpotIds(JSON.parse(spots));
+            setLocalLoading(false);
+            console.log("MySpotIds retrieved successfully!")
+        } else {
+            console.log("MySpotIds NOT retrieved successfully");
+        }
+    }
+
+    useEffect(() => {
+        if (isLocalLoading) {
+            getMySpotIds();
+        }
+    });
 
     return (
         <View style={styles.container}>
@@ -31,7 +55,7 @@ function NewSpotScreen(props) {
                 <View style={[styles.inputContainer, {paddingBottom: 10}]}>
                     <Text style={styles.fieldText}>Description</Text>
                     <TextInput 
-                        style={[styles.inputText, {paddingTop: 20}]}
+                        style={[styles.inputText, {paddingTop: 0}]}
                         placeholder="Description"
                         multiline={true}
                         maxLength={300}
@@ -78,6 +102,14 @@ function NewSpotScreen(props) {
                     />
                 </View>
                 <View style={styles.inputContainer}>
+                    <Text style={styles.fieldText}>Add to My Spots?</Text>
+                    <Switch 
+                        style={styles.switch}
+                        value={addToMySpots}
+                        onChange={() => setAddToMySpots(!addToMySpots)}
+                    />
+                </View>
+                <View style={styles.inputContainer}>
                     <Text style={styles.fieldText}>Tags</Text>
                     <TextInput 
                         style={styles.inputText}
@@ -93,6 +125,7 @@ function NewSpotScreen(props) {
                 <View style={styles.inputContainer}>
                     {renderTags()}
                 </View>
+                
                 <View style={[styles.inputContainer, {flex: 1}]}>
 
                 </View>
@@ -116,18 +149,33 @@ function NewSpotScreen(props) {
                 description: description,
                 tags: tags,
                 city: city,
-                latitude: latitude,
-                longitude: longitude,
+                latitude: parseFloat(latitude),
+                longitude: parseFloat(longitude),
                 visible: visible,
                 imageLinks: []
             }
-            const spotUrl = apiUrl + "/spots";
-            const response = await fetch(spotUrl, {
-                method: 'POST',
-                body: JSON.stringify(spotModel)
-            });
-            const json = response.json().then(data => console.log(data));
-            console.log(json);
+            try {
+                const spotUrl = apiUrl + "/spots";
+                const response = await fetch(spotUrl, {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    method: 'POST',
+                    body: JSON.stringify(spotModel)
+                });
+                if (addToMySpots) {
+                    const json = response.json().then(data => {
+                        mySpotIds.push(data.id);
+                    });
+                    await SecureStore.setItemAsync("mySpots", JSON.stringify(mySpotIds));
+                }
+                console.log(mySpotIds);
+            } catch (err) {
+                console.error(err);
+            } finally {
+                navigation.goBack();
+            }
         } else {
             console.log("All spot fields must be filled.")
         }
