@@ -20,6 +20,7 @@ function NewSpotScreen({ navigation }) {
     const [isLocalLoading, setLocalLoading] = useState(true);
     const [mySpotIds, setMySpotIds] = useState([]);
 
+    // get MySpot Ids from local storage
     async function getMySpotIds() {
         let spots = await SecureStore.getItemAsync("mySpots");
         if (spots) {
@@ -32,6 +33,7 @@ function NewSpotScreen({ navigation }) {
         }
     }
 
+    // Automatically asynchronously calls functions
     useEffect(() => {
         if (isLocalLoading) {
             getMySpotIds();
@@ -143,6 +145,7 @@ function NewSpotScreen({ navigation }) {
 
     async function pressSubmit() {
         console.log("Submit Pressed");
+        // Checks if all the fields have been filled, otherwise doesn't submit
         if (name != "" && description != "" && tags.length > 0 && city != "" && longitude && latitude) {
             const spotModel = {
                 name: name,
@@ -155,6 +158,7 @@ function NewSpotScreen({ navigation }) {
                 imageLinks: []
             }
             try {
+                // Makes a POST request to send the spot to the api/database
                 const spotUrl = apiUrl + "/spots";
                 const response = await fetch(spotUrl, {
                     headers: {
@@ -164,13 +168,15 @@ function NewSpotScreen({ navigation }) {
                     method: 'POST',
                     body: JSON.stringify(spotModel)
                 });
+                // If user wants the spot added to MySpots, attempts to store it there locally
                 if (addToMySpots) {
-                    const json = response.json().then(data => {
+                    const json = response.json().then(async (data) => {
+                        console.log(data);
                         mySpotIds.push(data.id);
+                        await SecureStore.setItemAsync("mySpots", JSON.stringify(mySpotIds));
                     });
-                    await SecureStore.setItemAsync("mySpots", JSON.stringify(mySpotIds));
+                    console.log(mySpotIds);
                 }
-                console.log(mySpotIds);
             } catch (err) {
                 console.error(err);
             } finally {

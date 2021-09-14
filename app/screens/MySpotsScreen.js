@@ -11,6 +11,7 @@ const MySpotsScreen = ({ navigation }) => {
     const [mySpotIds, setMySpotIds] = useState([]);
     const [mySpots, setMySpots] = useState([]);
 
+    // Get MySpot ids from local storage
     async function getMySpotIds() {
         let spots = await SecureStore.getItemAsync("mySpots");
         if (spots) {
