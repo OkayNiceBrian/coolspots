@@ -52,7 +52,7 @@ const MySpotsScreen = ({ navigation }) => {
                             spot.latitude,
                             spot.longitude,
                             spot.visible,
-                            spot.userId
+                            spot.imageUrls
                         );
                         spotObjList.push(newSpot)
                         break;

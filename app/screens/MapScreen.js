@@ -64,7 +64,7 @@ const MapScreen = ({ navigation }) => {
             spotData.latitude,
             spotData.longitude,
             spotData.visible,
-            spotData.userId
+            spotData.imageUrls
             );
         navigation.navigate("SpotViewStack", { spotModel });
     }

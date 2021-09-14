@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import TopBar from '../components/TopBar';
+import { apiUrl } from '../../global';
+import { Spot } from '../models/Spot';
 import { View, StyleSheet, TextInput, Text, TouchableHighlight, Switch } from 'react-native';
 
 function NewSpotScreen(props) {
@@ -106,20 +108,44 @@ function NewSpotScreen(props) {
         </View>
     );
 
-    function pressSubmit() {
+    async function pressSubmit() {
         console.log("Submit Pressed");
+        if (name != "" && description != "" && tags.length > 0 && city != "" && longitude && latitude) {
+            const spotModel = {
+                name: name,
+                description: description,
+                tags: tags,
+                city: city,
+                latitude: latitude,
+                longitude: longitude,
+                visible: visible,
+                imageLinks: []
+            }
+            const spotUrl = apiUrl + "/spots";
+            const response = await fetch(spotUrl, {
+                method: 'POST',
+                body: JSON.stringify(spotModel)
+            });
+            const json = response.json().then(data => console.log(data));
+            console.log(json);
+        } else {
+            console.log("All spot fields must be filled.")
+        }
     }
 
     function renderTags() {
         return tags.map((tag, index) => {
             let str = "#" + tag;
-            return <Text style={styles.tagText} key={index}>{str}</Text>
+            return <Text style={styles.tagText} key={index}>{str}</Text>;
         });
     }
 
     function addTag() {
-        tags.push(curTag);
-        console.log(tags[tags.length - 1] + " was added to Tags");
+        curTag.trim();
+        if (curTag != "") {
+            tags.push(curTag);
+            console.log(tags[tags.length - 1] + " was added to Tags");
+        }
         setCurTag("");
     }
 }
