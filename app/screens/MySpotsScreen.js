@@ -4,10 +4,11 @@ import { TouchableHighlight, StyleSheet, View, Text, ActivityIndicator } from 'r
 import * as SecureStore from 'expo-secure-store';
 import { apiUrl } from '../../global';
 import { Spot } from '../models/Spot';
+import { useIsFocused } from '@react-navigation/native';
 
 const MySpotsScreen = ({ navigation }) => {
     const [isLocalLoading, setLocalLoading] = useState(true);
-    const [isApiLoading, setApiLoading] = useState(true);
+    const [isApiLoading, setApiLoading] = useState(false);
     const [mySpotIds, setMySpotIds] = useState([]);
     const [mySpots, setMySpots] = useState([]);
 
@@ -18,6 +19,7 @@ const MySpotsScreen = ({ navigation }) => {
             console.log(spots);
             setMySpotIds(JSON.parse(spots));
             setLocalLoading(false);
+            setApiLoading(true);
             console.log("MySpotIds retrieved successfully!")
         } else {
             console.log("MySpotIds NOT retrieved successfully");
@@ -25,6 +27,7 @@ const MySpotsScreen = ({ navigation }) => {
     }
 
     async function getMySpotsFromApi(abortController) {
+        // Create local list of spotIds, make sure format is good
         let spotIdList = [];
         for (let c of mySpotIds) {
             if (c != ',') {
@@ -32,14 +35,18 @@ const MySpotsScreen = ({ navigation }) => {
             }
         }
 
+        // Try to fetch all the spots from the API with the spotIds
         let spotObjList = [];
         try {
             const spotUrl = apiUrl + "/spots";
             const response = await fetch(spotUrl, {signal: abortController.signal});
             const json = await response.json();
             const spotsArr = json._embedded.spots;
+            // for each spot from the API
             for (let spot of spotsArr) {
+                // And for each spotId from Local
                 for (let spotId of spotIdList) {
+                    // Push the mySpot objects to the screen
                     if (spot.id == spotId) {
                         const newSpot = new Spot(
                             spot.id,
@@ -75,6 +82,12 @@ const MySpotsScreen = ({ navigation }) => {
         }
     });
 
+    // Re-runs this effect everytime the screen is refocused
+    const isFocused = useIsFocused();
+    useEffect(() => {
+        setLocalLoading(true);
+    }, [isFocused]);
+
     function renderMySpotOptions() {
         if (!isApiLoading) {
             return mySpots.map((spot, index) => (
@@ -90,7 +103,8 @@ const MySpotsScreen = ({ navigation }) => {
             ))
         }
 
-        return <Text>Loading...</Text>;
+        //return <Text>Loading...</Text>;
+        return <ActivityIndicator style={styles.loading}/>;
     }
 
     return (
@@ -123,6 +137,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         
+    },
+    loading: {
+        top: 20,
     },
     menu: {
         flex: 1,

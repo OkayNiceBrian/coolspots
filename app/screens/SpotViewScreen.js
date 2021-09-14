@@ -1,12 +1,48 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import TopBar from '../components/TopBar';
 import Spot from '../models/Spot';
+import * as SecureStore from 'expo-secure-store';
 import { View, StyleSheet, Text, TouchableHighlight } from 'react-native';
-import { render } from 'react-dom';
 
 const SpotViewScreen = ({ navigation, route }) => {
     // The Spot Model with all spot data passed from the previous screen
     const spotModel = route.params.spotModel;
+
+    const[isLocalLoading, setLocalLoading] = useState(true);
+    const[mySpotIds, setMySpotIds] = useState([]);
+    const[saveMySpots, setSaveMySpots] = useState(false);
+
+    // Get MySpot ids from local storage
+    async function getMySpotIds() {
+        let spots = await SecureStore.getItemAsync("mySpots");
+        if (spots) {
+            console.log(spots);
+            setMySpotIds(JSON.parse(spots));
+            setLocalLoading(false);
+            console.log("MySpotIds retrieved successfully!")
+        } else {
+            console.log("MySpotIds NOT retrieved successfully");
+        }
+    }
+
+    async function saveMySpotIds() {
+        try {
+            await SecureStore.setItemAsync("mySpots", JSON.stringify(mySpotIds));
+            setSaveMySpots(false);
+            console.log("mySpotIds saved successfully!");
+        } catch (err) {
+            console.error(err);
+        } 
+    }
+
+    useEffect(() => {
+        if (isLocalLoading) {
+            getMySpotIds();
+        }
+        if (saveMySpots) {
+            saveMySpotIds();
+        }
+    });
 
     return (
         <View style={styles.container}>
@@ -40,6 +76,7 @@ const SpotViewScreen = ({ navigation, route }) => {
                             <Text style={styles.menuText}>Open in Maps -{'>'}</Text>
                         </View>
                     </TouchableHighlight>
+                    { renderAddOrRemove() }
                     <TouchableHighlight 
                         style={{width: '100%'}}
                         onPress={() => PressReportSpot()}
@@ -54,12 +91,57 @@ const SpotViewScreen = ({ navigation, route }) => {
 
     );
 
+    function pressRemoveFromMySpots() {
+        console.log("Remove from mySpots Pressed");
+        if (mySpotIds.includes(spotModel.id)){
+            mySpotIds.splice(mySpotIds.indexOf(spotModel.id), 1);
+            setSaveMySpots(true);
+        }
+    }
+    
+    function pressAddToMySpots() {
+        console.log("Add to mySpots Pressed");
+        if (!mySpotIds.includes(spotModel.id)){
+            mySpotIds.push(spotModel.id);
+            setSaveMySpots(true);
+        }
+    }
+
     function renderTags() {
         let tagString = "";
         for (let tag of spotModel.tags) {
             tagString += ("#" + tag + " ");
         }
         return (<Text style={styles.tagsText}>{tagString}</Text>);
+    }
+
+    function renderAddOrRemove() {
+        if (!isLocalLoading) {
+            if (mySpotIds.includes(spotModel.id)) {
+                return (
+                    <TouchableHighlight 
+                        style={{width: '100%'}}
+                        onPress={() => pressRemoveFromMySpots()}
+                    >
+                        <View style={styles.menuOption}>
+                            <Text style={styles.menuText}>Remove from My Spots</Text>
+                        </View>
+                    </TouchableHighlight>
+                );
+            } else {
+                return (
+                    <TouchableHighlight 
+                        style={{width: '100%'}}
+                        onPress={() => pressAddToMySpots()}
+                    >
+                        <View style={styles.menuOption}>
+                            <Text style={styles.menuText}>Add to My Spots</Text>
+                        </View>
+                    </TouchableHighlight>
+                )
+            }
+        }
+        return null;
     }
 }
 
