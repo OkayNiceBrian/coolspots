@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import TopBar from '../components/TopBar';
 import { apiUrl } from '../../global';
-import { Spot } from '../models/Spot';
 import { View, StyleSheet, TextInput, Text, TouchableHighlight, Switch, Button } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 import * as Location from 'expo-location';
@@ -12,13 +11,15 @@ function NewSpotScreen({ navigation }) {
     const [tags, setTags] = useState([]);
     const [curTag, setCurTag] = useState("");
     const [city, setCity] = useState("");
-    const [latitude, setLatitude] = useState();
-    const [longitude, setLongitude] = useState();
+    const [latitude, setLatitude] = useState("");
+    const [longitude, setLongitude] = useState("");
     const [visible, setVisible] = useState(true);
     const [addToMySpots, setAddToMySpots] = useState(true);
 
     const [isLocalLoading, setLocalLoading] = useState(true);
     const [mySpotIds, setMySpotIds] = useState([]);
+
+    const [useCurrentLocation, setUseCurrentLocation] = useState(false);
 
     // get MySpot Ids from local storage
     async function getMySpotIds() {
@@ -33,10 +34,29 @@ function NewSpotScreen({ navigation }) {
         }
     }
 
+    // get the user's current location for lat and long values
+    async function getCurrentLocation() {
+        setUseCurrentLocation(false);
+        
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+            console.log("User location permission denied");
+            return;
+        }
+
+        let location = await Location.getCurrentPositionAsync({});
+        setLatitude(location.coords.latitude);
+        setLongitude(location.coords.longitude);
+        console.log(`Retrieved user location: lat: ${latitude} long: ${longitude}`);
+    }
+
     // Automatically asynchronously calls functions
     useEffect(() => {
         if (isLocalLoading) {
             getMySpotIds();
+        }
+        if (useCurrentLocation) {
+            getCurrentLocation();
         }
     });
 
@@ -79,6 +99,7 @@ function NewSpotScreen({ navigation }) {
                     <Text style={styles.fieldText}>Location</Text>
                     <Button 
                         title="Use Current Location"
+                        onPress={() => pressCurrentLocation()}
                     />
                 </View>
                 <View style={styles.inputContainer}>
@@ -86,10 +107,8 @@ function NewSpotScreen({ navigation }) {
                     <TextInput 
                         style={styles.inputText}
                         placeholder="Latitude"
-                        maxLength={9}
                         editable={false}
-                        onChangeText={setLatitude}
-                        value={latitude}
+                        value={latitude.toString()}
                     />
                 </View>
                 <View style={styles.inputContainer}>
@@ -97,10 +116,8 @@ function NewSpotScreen({ navigation }) {
                     <TextInput 
                         style={styles.inputText}
                         placeholder="Longitude"
-                        maxLength={9}
                         editable={false}
-                        onChangeText={setLongitude}
-                        value={longitude}
+                        value={longitude.toString()}
                     />
                 </View>
                 <View style={styles.inputContainer}>
@@ -191,8 +208,13 @@ function NewSpotScreen({ navigation }) {
                 navigation.goBack();
             }
         } else {
-            console.log("All spot fields must be filled.")
+            console.log("All spot fields must be filled.");
         }
+    }
+
+    function pressCurrentLocation() {
+        console.log("Use Current Location Pressed");
+        setUseCurrentLocation(true);
     }
 
     function renderTags() {
