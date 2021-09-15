@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import TopBar from '../components/TopBar';
-import { TouchableHighlight, StyleSheet, View, Text, ActivityIndicator } from 'react-native';
+import { TouchableHighlight, StyleSheet, View, Text, ActivityIndicator, ScrollView } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 import { apiUrl } from '../../global';
 import { Spot } from '../models/Spot';
@@ -110,11 +110,13 @@ const MySpotsScreen = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <TopBar />
-            <View style={styles.content}>
-                <View style={styles.menu}>
-                    { renderMySpotOptions() }
+            <ScrollView style={{ width: '100%' }}>
+                <View style={styles.content}>
+                    <View style={styles.menu}>
+                        { renderMySpotOptions() }
+                    </View>
                 </View>
-            </View>
+            </ScrollView>
         </View>
     );
 

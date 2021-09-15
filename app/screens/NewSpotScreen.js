@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import TopBar from '../components/TopBar';
 import { apiUrl } from '../../global';
-import { View, StyleSheet, TextInput, Text, TouchableHighlight, Switch, Button } from 'react-native';
+import { View, StyleSheet, TextInput, Text, TouchableHighlight, Switch, Button, ScrollView, Alert } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 import * as Location from 'expo-location';
 
@@ -64,98 +64,99 @@ function NewSpotScreen({ navigation }) {
         <View style={styles.container}>
             <TopBar />
             <View style={styles.content}>
-                <View style={styles.inputContainer}>
-                    <Text style={styles.fieldText}>Name</Text>
-                    <TextInput 
-                        style={styles.inputText}
-                        placeholder="Name"
-                        maxLength={30}
-                        onChangeText={setName}
-                        value={name}
-                    />
-                </View>
-                <View style={[styles.inputContainer, {paddingBottom: 10}]}>
-                    <Text style={styles.fieldText}>Description</Text>
-                    <TextInput 
-                        style={[styles.inputText, {paddingTop: 0}]}
-                        placeholder="Description"
-                        multiline={true}
-                        maxLength={300}
-                        onChangeText={setDescription}
-                        value={description}
-                    />
-                </View>
-                <View style={styles.inputContainer}>
-                    <Text style={styles.fieldText}>City</Text>
-                    <TextInput 
-                        style={styles.inputText}
-                        placeholder="City"
-                        maxLength={20}
-                        onChangeText={setCity}
-                        value={city}
-                    />
-                </View>
-                <View style={styles.inputContainer}>
-                    <Text style={styles.fieldText}>Location</Text>
-                    <Button 
-                        title="Use Current Location"
-                        onPress={() => pressCurrentLocation()}
-                    />
-                </View>
-                <View style={styles.inputContainer}>
-                    <Text style={styles.fieldText}>Latitude</Text>
-                    <TextInput 
-                        style={styles.inputText}
-                        placeholder="Latitude"
-                        editable={false}
-                        value={latitude.toString()}
-                    />
-                </View>
-                <View style={styles.inputContainer}>
-                    <Text style={styles.fieldText}>Longitude</Text>
-                    <TextInput 
-                        style={styles.inputText}
-                        placeholder="Longitude"
-                        editable={false}
-                        value={longitude.toString()}
-                    />
-                </View>
-                <View style={styles.inputContainer}>
-                    <Text style={styles.fieldText}>Make Private?</Text>
-                    <Switch 
-                        style={styles.switch}
-                        value={!visible}
-                        onChange={() => setVisible(!visible)}
-                    />
-                </View>
-                <View style={styles.inputContainer}>
-                    <Text style={styles.fieldText}>Add to My Spots?</Text>
-                    <Switch 
-                        style={styles.switch}
-                        value={addToMySpots}
-                        onChange={() => setAddToMySpots(!addToMySpots)}
-                    />
-                </View>
-                <View style={styles.inputContainer}>
-                    <Text style={styles.fieldText}>Tags</Text>
-                    <TextInput 
-                        style={styles.inputText}
-                        autoCorrect={false}
-                        returnKeyLabel={"Add Tag"}
-                        placeholder="Tag"
-                        maxLength={10}
-                        onChangeText={setCurTag}
-                        value={curTag}
-                        onSubmitEditing={() => addTag()}
-                    />
-                </View>
-                <View style={styles.inputContainer}>
-                    {renderTags()}
-                </View>
-                
-                <View style={[styles.inputContainer, {flex: 1}]}>
-
-                </View>
+                <ScrollView style={{ width: '100%' }}>
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.fieldText}>Name</Text>
+                        <TextInput 
+                            style={styles.inputText}
+                            placeholder="Name"
+                            maxLength={30}
+                            onChangeText={setName}
+                            value={name}
+                        />
+                    </View>
+                    <View style={[styles.inputContainer, {paddingBottom: 10}]}>
+                        <Text style={styles.fieldText}>Description</Text>
+                        <TextInput 
+                            style={[styles.inputText, {paddingTop: 0}]}
+                            placeholder="Description"
+                            multiline={true}
+                            maxLength={300}
+                            onChangeText={setDescription}
+                            value={description}
+                        />
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.fieldText}>City</Text>
+                        <TextInput 
+                            style={styles.inputText}
+                            placeholder="City"
+                            maxLength={20}
+                            onChangeText={setCity}
+                            value={city}
+                        />
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.fieldText}>Location</Text>
+                        <Button 
+                            title="Use Current Location"
+                            onPress={() => pressCurrentLocation()}
+                        />
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.fieldText}>Latitude</Text>
+                        <TextInput 
+                            style={styles.inputText}
+                            placeholder="Latitude"
+                            editable={false}
+                            value={latitude.toString()}
+                        />
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.fieldText}>Longitude</Text>
+                        <TextInput 
+                            style={styles.inputText}
+                            placeholder="Longitude"
+                            editable={false}
+                            value={longitude.toString()}
+                        />
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.fieldText}>Make Private?</Text>
+                        <Switch 
+                            style={styles.switch}
+                            value={!visible}
+                            onChange={() => setVisible(!visible)}
+                        />
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.fieldText}>Add to My Spots?</Text>
+                        <Switch 
+                            style={styles.switch}
+                            value={addToMySpots}
+                            onChange={() => setAddToMySpots(!addToMySpots)}
+                        />
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.fieldText}>Tags</Text>
+                        <TextInput 
+                            style={styles.inputText}
+                            autoCorrect={false}
+                            returnKeyLabel={"Add Tag"}
+                            placeholder="Tag"
+                            maxLength={10}
+                            onChangeText={setCurTag}
+                            value={curTag}
+                            onSubmitEditing={() => addTag()}
+                        />
+                    </View>
+                    <View style={styles.inputContainer}>
+                        {renderTags()}
+                    </View>
+                    
+                    <View style={[styles.inputContainer, {flex: 1}]}>
+                    </View>
+                </ScrollView>
                 <TouchableHighlight 
                     style={{width: "100%"}} 
                     onPress={() => pressSubmit()}
@@ -209,6 +210,13 @@ function NewSpotScreen({ navigation }) {
             }
         } else {
             console.log("All spot fields must be filled.");
+            Alert.alert(
+                "Form Incomplete",
+                "All fields must be filled to submit spot.",
+                [
+                    { text: "Ok", onPress: () => console.log("OK Pressed") }
+                ]
+            );
         }
     }
 

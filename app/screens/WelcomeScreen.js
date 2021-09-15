@@ -18,30 +18,26 @@ const WelcomeScreen = ({ navigation }) => {
             </View>
             <TouchableHighlight 
                 style={{width: "100%"}} 
-                onPress={() => onPressLogin()}
+                onPress={() => onPressEnter()}
             >
                 <View style={styles.loginButton}>
-                    <Text style={styles.buttonText}>Login</Text>
+                    <Text style={styles.buttonText}>Start</Text>
                 </View>
             </TouchableHighlight>
-            <TouchableHighlight 
+            {/* <TouchableHighlight 
                 style={{width: "100%"}} 
-                onPress={() => onPressRegister()}
+                onPress={() => onPressEnter()}
             >  
                 <View style={styles.registerButton}>
-                    <Text style={styles.buttonText}>Register</Text>
+                    <Text style={styles.buttonText}>Start</Text>
                 </View>
-            </TouchableHighlight>
+            </TouchableHighlight> */}
         </View>
     );
 
-    function onPressLogin() {
-        console.log("Login Button Pressed");
+    function onPressEnter() {
+        console.log("Enter Button Pressed");
         navigation.navigate("Home");
-    }
-
-    function onPressRegister() {
-        console.log("Register Button Pressed");
     }
 }
 

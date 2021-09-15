@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import TopBar from '../components/TopBar';
-import Spot from '../models/Spot';
 import * as SecureStore from 'expo-secure-store';
-import { View, StyleSheet, Text, TouchableHighlight } from 'react-native';
+import { View, StyleSheet, Text, TouchableHighlight, ScrollView } from 'react-native';
 
 const SpotViewScreen = ({ navigation, route }) => {
     // The Spot Model with all spot data passed from the previous screen
@@ -46,47 +44,49 @@ const SpotViewScreen = ({ navigation, route }) => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.imageContainer}>
-                <Text>IMAGES</Text>
-            </View>
-            <View style={styles.content}>
-                <View style={styles.descriptionContainer}>
-                    <Text style={styles.descriptionText}>{spotModel.description}</Text>
+            <ScrollView style={{ width: '100%' }}>
+                <View style={styles.imageContainer}>
+                    <Text>IMAGES</Text>
                 </View>
-                <View style={styles.tagsContainer}>
-                    {renderTags()}
+                <View style={styles.content}>
+                    <View style={styles.descriptionContainer}>
+                        <Text style={styles.descriptionText}>{spotModel.description}</Text>
+                    </View>
+                    <View style={styles.tagsContainer}>
+                        {renderTags()}
+                    </View>
+                    <View style={styles.tagsContainer}>
+                        <Text style={styles.tagsText}>{spotModel.city}</Text>
+                    </View>
+                    <View style={styles.menu}>
+                        <TouchableHighlight 
+                            style={{width: '100%'}}
+                            onPress={() => PressViewLocation()}
+                        >
+                            <View style={[styles.menuOption, {borderTopWidth: 2}]}>
+                                <Text style={styles.menuText}>View Location</Text>
+                            </View>
+                        </TouchableHighlight>
+                        <TouchableHighlight 
+                            style={{width: '100%'}}
+                            onPress={() => PressOpenInMaps()}
+                        >
+                            <View style={styles.menuOption}>
+                                <Text style={styles.menuText}>Open in Maps -{'>'}</Text>
+                            </View>
+                        </TouchableHighlight>
+                        { renderAddOrRemove() }
+                        <TouchableHighlight 
+                            style={{width: '100%'}}
+                            onPress={() => PressReportSpot()}
+                        >
+                            <View style={styles.menuOption}>
+                                <Text style={styles.menuText}>Report Spot</Text>
+                            </View>
+                        </TouchableHighlight>
+                    </View>
                 </View>
-                <View style={styles.tagsContainer}>
-                    <Text style={styles.tagsText}>{spotModel.city}</Text>
-                </View>
-                <View style={styles.menu}>
-                    <TouchableHighlight 
-                        style={{width: '100%'}}
-                        onPress={() => PressViewLocation()}
-                    >
-                        <View style={[styles.menuOption, {borderTopWidth: 2}]}>
-                            <Text style={styles.menuText}>View Location</Text>
-                        </View>
-                    </TouchableHighlight>
-                    <TouchableHighlight 
-                        style={{width: '100%'}}
-                        onPress={() => PressOpenInMaps()}
-                    >
-                        <View style={styles.menuOption}>
-                            <Text style={styles.menuText}>Open in Maps -{'>'}</Text>
-                        </View>
-                    </TouchableHighlight>
-                    { renderAddOrRemove() }
-                    <TouchableHighlight 
-                        style={{width: '100%'}}
-                        onPress={() => PressReportSpot()}
-                    >
-                        <View style={styles.menuOption}>
-                            <Text style={styles.menuText}>Report Spot</Text>
-                        </View>
-                    </TouchableHighlight>
-                </View>
-            </View>
+            </ScrollView>
         </View>
 
     );
