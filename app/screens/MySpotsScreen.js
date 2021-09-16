@@ -11,6 +11,7 @@ const MySpotsScreen = ({ navigation }) => {
     const [isApiLoading, setApiLoading] = useState(false);
     const [mySpotIds, setMySpotIds] = useState([]);
     const [mySpots, setMySpots] = useState([]);
+    const [spotObjList, setSpotObjList] = useState([])
 
     // Get MySpot ids from local storage
     async function getMySpotIds() {
@@ -27,49 +28,45 @@ const MySpotsScreen = ({ navigation }) => {
     }
 
     async function getMySpotsFromApi(abortController) {
-        // Create local list of spotIds, make sure format is good
-        let spotIdList = [];
-        for (let c of mySpotIds) {
-            if (c != ',') {
-                spotIdList.push(c);
-            }
-        }
-
         // Try to fetch all the spots from the API with the spotIds
-        let spotObjList = [];
         try {
             const spotUrl = apiUrl + "/spots";
             const response = await fetch(spotUrl, {signal: abortController.signal});
             const json = await response.json();
-            const spotsArr = json._embedded.spots;
-            // for each spot from the API
-            for (let spot of spotsArr) {
-                // And for each spotId from Local
-                for (let spotId of spotIdList) {
-                    // Push the mySpot objects to the screen
-                    if (spot.id == spotId) {
-                        const newSpot = new Spot(
-                            spot.id,
-                            spot.name,
-                            spot.description,
-                            spot.tags,
-                            spot.city,
-                            spot.latitude,
-                            spot.longitude,
-                            spot.visible,
-                            spot.imageUrls
-                        );
-                        spotObjList.push(newSpot)
-                        break;
-                    }
-                }
-            }
+            setSpotObjList(json._embedded.spots);
+            determineMySpots();
         } catch (err) {
             console.error(err);
         } finally {
-            setMySpots(spotObjList);
             setApiLoading(false);
         }
+    }
+
+    function determineMySpots() {
+        let mySpotObjList = []
+        // for each spot from the API
+        for (let spot of spotObjList) {
+            // And for each spotId from Local
+            for (let spotId of mySpotIds) {
+                // Push the mySpot objects to the screen
+                if (spot.id == spotId) {
+                    const newSpot = new Spot(
+                        spot.id,
+                        spot.name,
+                        spot.description,
+                        spot.tags,
+                        spot.city,
+                        spot.latitude,
+                        spot.longitude,
+                        spot.visible,
+                        spot.imageUrls
+                    );
+                    mySpotObjList.push(newSpot)
+                    break;
+                }
+            }
+        }
+        setMySpots(mySpotObjList);
     }
 
     useEffect(() => {
@@ -85,7 +82,7 @@ const MySpotsScreen = ({ navigation }) => {
     // Re-runs this effect everytime the screen is refocused
     const isFocused = useIsFocused();
     useEffect(() => {
-        setLocalLoading(true);
+        determineMySpots();
     }, [isFocused]);
 
     function renderMySpotOptions() {
@@ -122,7 +119,10 @@ const MySpotsScreen = ({ navigation }) => {
 
     function pressSpot(spotModel) {
         console.log("Spot Pressed");
-        navigation.navigate('SpotViewStack', { spotModel });
+        navigation.navigate('SpotViewStack', { 
+            spotModel,
+            onGoBack: (spotIds) => setMySpotIds(spotIds),
+        });
     }
 }
 

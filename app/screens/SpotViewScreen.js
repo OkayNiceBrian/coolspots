@@ -27,6 +27,9 @@ const SpotViewScreen = ({ navigation, route }) => {
         try {
             await SecureStore.setItemAsync("mySpots", JSON.stringify(mySpotIds));
             setSaveMySpots(false);
+            if (route.params.hasOwnProperty('onGoBack')){
+                route.params.onGoBack(mySpotIds);
+            }
             console.log("mySpotIds saved successfully!");
         } catch (err) {
             console.error(err);

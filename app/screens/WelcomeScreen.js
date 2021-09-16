@@ -4,20 +4,20 @@ import TopBar from '../components/TopBar';
 import { StyleSheet, View, Image, Text, TouchableHighlight, TextInput, } from 'react-native';
 
 const WelcomeScreen = ({ navigation }) => {
-    return (        
-        <View 
+    return (
+        <View
             style={styles.background}
         >
             <TopBar />
             <View style={styles.logoContainer}>
-                <Image 
-                    source={require('../assets/favicon.png')} 
+                <Image
+                    source={require('../assets/favicon.png')}
                     style={styles.logo}
                 />
                 <Text style={styles.tagline}>CoolSpots</Text>
             </View>
-            <TouchableHighlight 
-                style={{width: "100%"}} 
+            <TouchableHighlight
+                style={{ width: "100%" }}
                 onPress={() => onPressEnter()}
             >
                 <View style={styles.loginButton}>
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     },
     logo: {
         width: 100,
-        height: 100,  
+        height: 100,
     },
     logoContainer: {
         flex: 1,
