@@ -96,7 +96,7 @@ const MySpotsScreen = ({ navigation }) => {
                     style={{width: '100%'}}
                     onPress={() => pressSpot(spot)}
                 >
-                    <View style={[styles.menuOption, {borderTopWidth: 2}]}>
+                    <View style={[styles.menuOption]}>
                         <Text style={styles.menuText}>{spot.name}</Text>
                     </View>
                 </TouchableHighlight>

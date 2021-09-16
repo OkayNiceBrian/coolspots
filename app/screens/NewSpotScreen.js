@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import TopBar from '../components/TopBar';
 import { apiUrl } from '../../global';
+import MapView, { Marker } from 'react-native-maps';
 import { View, StyleSheet, TextInput, Text, TouchableHighlight, Switch, Button, ScrollView, Alert } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 import * as Location from 'expo-location';
 
 function NewSpotScreen({ navigation }) {
+
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [tags, setTags] = useState([]);
@@ -20,7 +22,7 @@ function NewSpotScreen({ navigation }) {
     const [mySpotIds, setMySpotIds] = useState([]);
 
     const [useCurrentLocation, setUseCurrentLocation] = useState(false);
-
+    
     // get MySpot Ids from local storage
     async function getMySpotIds() {
         let spots = await SecureStore.getItemAsync("mySpots");
@@ -75,7 +77,7 @@ function NewSpotScreen({ navigation }) {
                             value={name}
                         />
                     </View>
-                    <View style={[styles.inputContainer, {paddingBottom: 10}]}>
+                    <View style={[styles.inputContainer, { paddingBottom: 10 }]}>
                         <Text style={styles.fieldText}>Description</Text>
                         <TextInput 
                             style={[styles.inputText, {paddingTop: 0}]}
@@ -98,9 +100,17 @@ function NewSpotScreen({ navigation }) {
                     </View>
                     <View style={styles.inputContainer}>
                         <Text style={styles.fieldText}>Location</Text>
-                        <Button 
+                        <Button
                             title="Use Current Location"
                             onPress={() => pressCurrentLocation()}
+                        />
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.fieldText}></Text>
+                        <Text style={{ color: 'gray' }}>Or  </Text>
+                        <Button
+                            title="Choose a Location"
+                            onPress={() => pressChooseLocation()}
                         />
                     </View>
                     <View style={styles.inputContainer}>
@@ -225,6 +235,18 @@ function NewSpotScreen({ navigation }) {
         setUseCurrentLocation(true);
     }
 
+    function pressChooseLocation() {
+        console.log("Choose a Location Pressed");
+        navigation.navigate('ChooseLocationStack', {
+            onGoBack: (mapLat, mapLong) => setChosenLocation(mapLat, mapLong),
+        });
+    }
+
+    function setChosenLocation(mapLat, mapLong) {
+        setLatitude(mapLat);
+        setLongitude(mapLong);
+    }
+
     function renderTags() {
         return tags.map((tag, index) => {
             let str = "#" + tag;
@@ -239,6 +261,60 @@ function NewSpotScreen({ navigation }) {
             console.log(tags[tags.length - 1] + " was added to Tags");
         }
         setCurTag("");
+    }
+}
+
+// A subscreen for users to choose their Spot location
+export const ChooseLocationScreen = ({ navigation, route }) => {
+    
+    const [mapLat, setMapLat] = useState("");
+    const [mapLong, setMapLong] = useState("");
+    const [isTapped, setIsTapped] = useState(false);
+
+    useEffect(() => {
+        if (isTapped) {
+            onceLocationTapped();
+        }
+    });
+
+    return (
+        <View style={styles.container}>
+            <MapView 
+                style={styles.map}
+                showsUserLocation={true}
+                showMyLocationButton={true}
+                onPress={(e) => setMapLocation(e.nativeEvent.coordinate)}
+            />
+        </View>
+    );
+
+    function setMapLocation(coordinate) {
+        console.log("Map Location Tapped");
+        setMapLat(coordinate.latitude.toString());
+        setMapLong(coordinate.longitude.toString());
+        setIsTapped(true);
+    }
+
+    function onceLocationTapped() {
+        Alert.alert(
+            "Use This Location?",
+            `Latitude: ${mapLat}\nLongitude: ${mapLong}`,
+            [
+                { text: "Yes", onPress: () => pressYes() },
+                { text: "No", onPress: () => pressNo() }
+            ]
+        );
+    }
+
+    function pressYes() {
+        console.log("Yes Pressed");
+        route.params.onGoBack(mapLat, mapLong);
+        navigation.goBack();
+    }
+
+    function pressNo() {
+        console.log("No Pressed");
+        setIsTapped(false);
     }
 }
 
@@ -279,6 +355,10 @@ const styles = StyleSheet.create({
         margin: 0,
         borderBottomWidth: 1,
         borderColor: '#fff',
+    },
+    map: {
+        flex: 1,
+        width: '100%',
     },
     submitButton: {
         width: '100%',
