@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import * as SecureStore from 'expo-secure-store';
-import { View, StyleSheet, Text, TouchableHighlight, ScrollView } from 'react-native';
+import { View, StyleSheet, Text, TouchableHighlight, ScrollView, Platform, Linking } from 'react-native';
 
 const SpotViewScreen = ({ navigation, route }) => {
     // The Spot Model with all spot data passed from the previous screen
@@ -27,6 +27,7 @@ const SpotViewScreen = ({ navigation, route }) => {
         try {
             await SecureStore.setItemAsync("mySpots", JSON.stringify(mySpotIds));
             setSaveMySpots(false);
+            // Check if you need to refresh MySpotsScreen spotIds
             if (route.params.hasOwnProperty('onGoBack')){
                 route.params.onGoBack(mySpotIds);
             }
@@ -63,7 +64,7 @@ const SpotViewScreen = ({ navigation, route }) => {
                     </View>
                     <View style={styles.menu}>
                         <TouchableHighlight 
-                            style={{width: '100%'}}
+                            style={{ width: '100%' }}
                             onPress={() => PressViewLocation()}
                         >
                             <View style={[styles.menuOption, {borderTopWidth: 2}]}>
@@ -71,16 +72,16 @@ const SpotViewScreen = ({ navigation, route }) => {
                             </View>
                         </TouchableHighlight>
                         <TouchableHighlight 
-                            style={{width: '100%'}}
+                            style={{ width: '100%' }}
                             onPress={() => PressOpenInMaps()}
                         >
                             <View style={styles.menuOption}>
-                                <Text style={styles.menuText}>Open in Maps -{'>'}</Text>
+                                <Text style={styles.menuText}>Open in {Platform.OS==='ios' ? "Apple " : "Google"} Maps</Text>
                             </View>
                         </TouchableHighlight>
                         { renderAddOrRemove() }
                         <TouchableHighlight 
-                            style={{width: '100%'}}
+                            style={{ width: '100%' }}
                             onPress={() => PressReportSpot()}
                         >
                             <View style={styles.menuOption}>
@@ -108,6 +109,35 @@ const SpotViewScreen = ({ navigation, route }) => {
             mySpotIds.push(spotModel.id);
             setSaveMySpots(true);
         }
+    }
+
+    function PressViewLocation() {
+        console.log("View Location Pressed");
+        navigation.navigate('MapViewStack', {
+            spotModel,
+        });
+    }
+    
+    function PressOpenInMaps() {
+        console.log("Open In Maps Pressed");
+        const scheme = Platform.select({ ios: 'maps:0,0?q=', android: 'geo:0,0?q=' });
+        const latLng = `${spotModel.latitude},${spotModel.longitude}`;
+        const label = spotModel.name;
+        const url = Platform.select({
+            ios: `${scheme}${label}@${latLng}`,
+            android: `${scheme}${latLng}(${label})`
+        });
+        Linking.canOpenURL(url).then(supported => {
+            if (supported) {
+                Linking.openURL(url);
+            } else {
+                console.log('Don\'t know how to open URI: ' + url);
+            }
+        });
+    }
+    
+    function PressReportSpot() {
+        console.log("Report Spot Pressed");
     }
 
     function renderTags() {
@@ -148,20 +178,6 @@ const SpotViewScreen = ({ navigation, route }) => {
     }
 }
 
-function PressViewLocation() {
-    console.log("View Location Pressed");
-}
-
-function PressOpenInMaps() {
-    console.log("Open In Maps Pressed");
-}
-
-function PressReportSpot() {
-    console.log("Report Spot Pressed");
-}
-
-
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -189,7 +205,7 @@ const styles = StyleSheet.create({
     },
     imageContainer: {
         width: '100%',
-        height: 300,
+        height: 250,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#ececec',

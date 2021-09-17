@@ -15,6 +15,7 @@
     "clean": "^4.0.2",
     "clear": "^0.1.0",
     "expo": "~42.0.1",
+    "expo-localization": "~10.2.0",
     "expo-location": "~12.1.2",
     "expo-secure-store": "~10.2.0",
     "expo-status-bar": "~1.0.4",

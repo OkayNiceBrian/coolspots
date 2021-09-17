@@ -4,6 +4,7 @@ import HomeScreen from './HomeScreen';
 import MySpotsScreen from './MySpotsScreen';
 import SettingsScreen from './SettingsScreen';
 import SpotViewScreen from './SpotViewScreen';
+import MapScreen from './MapScreen';
 import NewSpotScreen, { ChooseLocationScreen } from './NewSpotScreen';
 
 const Stack = createNativeStackNavigator();
@@ -39,6 +40,11 @@ function HomeStack(props) {
             <Stack.Screen 
                 name='SpotViewStack'
                 component={SpotViewScreen}
+                options={({ route }) => ({ title: route.params.spotModel.name })}
+            />
+            <Stack.Screen 
+                name='MapViewStack'
+                component={MapScreen}
                 options={({ route }) => ({ title: route.params.spotModel.name })}
             />
         </Stack.Navigator>

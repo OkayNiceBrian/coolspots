@@ -4,9 +4,35 @@ import { StyleSheet, View, Text, ActivityIndicator, Platform } from 'react-nativ
 import { apiUrl } from '../../global';
 import { Spot } from '../models/Spot';
 
-const MapScreen = ({ navigation }) => {
+const MapScreen = ({ navigation, route }) => {
     const [isLoading, setLoading] = useState(true);
     const [spotList, setData] = useState([]);
+    const [mapRegion, setMapRegion] = useState({region: {
+        latitude: 35.0844,
+        longitude: -96.6504,
+        latitudeDelta: 60,
+        longitudeDelta: 60,
+    }});
+    const [loadRegion, setLoadRegion] = useState(true);
+
+    if (loadRegion) {
+        if (route.params) {
+            if (route.params.hasOwnProperty('spotModel')) {
+                let spot = route.params.spotModel;
+                setMapRegion({region: {
+                    latitude: spot.latitude,
+                    longitude: spot.longitude,
+                    latitudeDelta: 0.005,
+                    longitudeDelta: 0.005,
+                }});
+                setLoadRegion(false);
+            }
+        }
+    }
+
+    function onRegionChange(region) {
+        setMapRegion(region);
+    }
 
     // Asynchronously gets a list of all spots from the api
     const getSpots = async () => {
@@ -44,6 +70,8 @@ const MapScreen = ({ navigation }) => {
         <View style={styles.container}>
             <MapView 
                 //provider={PROVIDER_GOOGLE}
+                region={mapRegion.region}
+                onRegionChange={onRegionChange}
                 style={styles.map}
                 showsUserLocation={true}
                 showsMyLocationButton={true} 
