@@ -9,6 +9,7 @@ import { useIsFocused } from '@react-navigation/native';
 const MySpotsScreen = ({ navigation }) => {
     const [isLocalLoading, setLocalLoading] = useState(true);
     const [isApiLoading, setApiLoading] = useState(false);
+    const [isDeterminingSpots, setDeterminingSpots] = useState(true);
     const [mySpotIds, setMySpotIds] = useState([]);
     const [mySpots, setMySpots] = useState([]);
     const [spotObjList, setSpotObjList] = useState([])
@@ -67,6 +68,7 @@ const MySpotsScreen = ({ navigation }) => {
             }
         }
         setMySpots(mySpotObjList);
+        setDeterminingSpots(false);
     }
 
     useEffect(() => {
@@ -86,7 +88,7 @@ const MySpotsScreen = ({ navigation }) => {
     }, [isFocused]);
 
     function renderMySpotOptions() {
-        if (!isApiLoading) {
+        if (!isDeterminingSpots) {
             return mySpots.map((spot, index) => (
                 <TouchableHighlight 
                     key={index}
@@ -99,8 +101,6 @@ const MySpotsScreen = ({ navigation }) => {
                 </TouchableHighlight>
             ))
         }
-
-        //return <Text>Loading...</Text>;
         return <ActivityIndicator style={styles.loading}/>;
     }
 

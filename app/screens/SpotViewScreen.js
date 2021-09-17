@@ -76,18 +76,18 @@ const SpotViewScreen = ({ navigation, route }) => {
                             onPress={() => PressOpenInMaps()}
                         >
                             <View style={styles.menuOption}>
-                                <Text style={styles.menuText}>Open in {Platform.OS==='ios' ? "Apple " : "Google"} Maps</Text>
+                                <Text style={styles.menuText}>Open in { Platform.OS === 'ios' ? "Apple" : "Google" } Maps</Text>
                             </View>
                         </TouchableHighlight>
                         { renderAddOrRemove() }
-                        <TouchableHighlight 
+                        {/* <TouchableHighlight 
                             style={{ width: '100%' }}
                             onPress={() => PressReportSpot()}
                         >
                             <View style={styles.menuOption}>
                                 <Text style={styles.menuText}>Report Spot</Text>
                             </View>
-                        </TouchableHighlight>
+                        </TouchableHighlight> */}
                     </View>
                 </View>
             </ScrollView>
