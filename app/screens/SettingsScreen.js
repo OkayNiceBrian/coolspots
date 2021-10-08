@@ -1,11 +1,11 @@
 import React from 'react';
-import TopBar from '../components/TopBar';
+import Divider from '../components/Divider';
 import { StyleSheet, View, Text } from 'react-native';
 
 const SettingsScreen = ({ navigation }) => {
     return (
         <View style={styles.container}>
-            <TopBar />
+            <Divider />
             <View style={styles.content}>
 
             </View>

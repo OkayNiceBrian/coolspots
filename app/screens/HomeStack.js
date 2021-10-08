@@ -20,7 +20,7 @@ function HomeStack(props) {
             <Stack.Screen 
                 name='MySpotsStack'
                 component={MySpotsScreen}
-                options={{ title: "My Saved Spots" }}
+                options={{ title: "My Spots" }}
             />
             <Stack.Screen 
                 name ='NewSpotStack'

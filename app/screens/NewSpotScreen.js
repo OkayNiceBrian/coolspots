@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import TopBar from '../components/TopBar';
+import Divider from '../components/Divider';
 import { apiUrl } from '../../global';
 import MapView, { Marker } from 'react-native-maps';
 import { View, StyleSheet, TextInput, Text, TouchableHighlight, Switch, Button, ScrollView, Alert } from 'react-native';
@@ -64,7 +64,7 @@ function NewSpotScreen({ navigation }) {
 
     return (
         <View style={styles.container}>
-            <TopBar />
+            <Divider />
             <View style={styles.content}>
                 <ScrollView style={{ width: '100%' }}>
                     <View style={styles.inputContainer}>

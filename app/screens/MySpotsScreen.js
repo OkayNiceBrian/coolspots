@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import TopBar from '../components/TopBar';
+import Divider from '../components/Divider';
 import { TouchableHighlight, StyleSheet, View, Text, ActivityIndicator, ScrollView } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 import { apiUrl } from '../../global';
@@ -106,7 +106,7 @@ const MySpotsScreen = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <TopBar />
+            <Divider />
             <ScrollView style={{ width: '100%' }}>
                 <View style={styles.content}>
                     <View style={styles.menu}>
