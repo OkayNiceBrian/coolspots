@@ -7,6 +7,7 @@ const SpotViewScreen = ({ navigation, route }) => {
     const spotModel = route.params.spotModel;
 
     const[isLocalLoading, setLocalLoading] = useState(true);
+    const[isCloudLoading, setCloudLoading] = useState(true);
     const[mySpotIds, setMySpotIds] = useState([]);
     const[saveMySpots, setSaveMySpots] = useState(false);
 
@@ -50,7 +51,7 @@ const SpotViewScreen = ({ navigation, route }) => {
         <View style={styles.container}>
             <ScrollView style={{ width: '100%' }}>
                 <View style={styles.imageContainer}>
-                    <Text>IMAGES</Text>
+                    { isCloudLoading ? <Text>Loading...</Text> : <Text>No Images</Text> }
                 </View>
                 <View style={styles.content}>
                     <View style={styles.descriptionContainer}>

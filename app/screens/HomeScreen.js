@@ -1,7 +1,6 @@
 import React from 'react';
 import TopBar from '../components/TopBar';
-import MapScreen from './MapScreen';
-import { View, StyleSheet, TouchableHighlight, Text } from 'react-native';
+import { View, StyleSheet, TouchableHighlight, Text, StatusBar } from 'react-native';
 
 const HomeScreen = ({ navigation }) => {
     return (

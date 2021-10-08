@@ -1,7 +1,7 @@
 //import { StatusBar } from 'expo-status-bar';
 import React, { useState, useContext } from 'react';
 import TopBar from '../components/TopBar';
-import { StyleSheet, View, Image, Text, TouchableHighlight, TextInput, } from 'react-native';
+import { StyleSheet, View, Image, Text, TouchableHighlight, StatusBar, } from 'react-native';
 
 const WelcomeScreen = ({ navigation }) => {
     return (

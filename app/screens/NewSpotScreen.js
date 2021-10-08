@@ -5,6 +5,7 @@ import MapView, { Marker } from 'react-native-maps';
 import { View, StyleSheet, TextInput, Text, TouchableHighlight, Switch, Button, ScrollView, Alert } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 import * as Location from 'expo-location';
+import * as ImagePicker from 'expo-image-picker';
 
 function NewSpotScreen({ navigation }) {
 
@@ -15,6 +16,8 @@ function NewSpotScreen({ navigation }) {
     const [city, setCity] = useState("");
     const [latitude, setLatitude] = useState("");
     const [longitude, setLongitude] = useState("");
+    const [images, setImages] = useState([]);
+    const [imageLinks, setImageLinks] = useState([]);
     const [visible, setVisible] = useState(true);
     const [addToMySpots, setAddToMySpots] = useState(true);
 
@@ -33,6 +36,7 @@ function NewSpotScreen({ navigation }) {
             console.log("MySpotIds retrieved successfully!")
         } else {
             console.log("MySpotIds NOT retrieved successfully");
+            setLocalLoading(false);
         }
     }
 
