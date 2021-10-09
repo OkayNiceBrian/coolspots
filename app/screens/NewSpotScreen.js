@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Divider from '../components/Divider';
 import { apiUrl } from '../../global';
 import MapView, { Marker } from 'react-native-maps';
-import { View, StyleSheet, TextInput, Text, TouchableHighlight, Switch, Button, ScrollView, Alert } from 'react-native';
+import { View, StyleSheet, TextInput, Text, TouchableHighlight, Switch, Button, ScrollView, Alert, Image } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 import * as Location from 'expo-location';
 import * as ImagePicker from 'expo-image-picker';
@@ -18,6 +18,7 @@ function NewSpotScreen({ navigation }) {
     const [longitude, setLongitude] = useState("");
     const [images, setImages] = useState([]);
     const [imageLinks, setImageLinks] = useState([]);
+    const [isImageLoading, setIsImageLoading] = useState(false);
     const [visible, setVisible] = useState(true);
     const [addToMySpots, setAddToMySpots] = useState(true);
 
@@ -54,6 +55,37 @@ function NewSpotScreen({ navigation }) {
         setLatitude(location.coords.latitude);
         setLongitude(location.coords.longitude);
         console.log(`Retrieved user location: lat: ${latitude} long: ${longitude}`);
+    }
+
+    // Request image picking
+    async function requestImagePicking() {
+        if (images.length <= 7) {
+            const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+            if (status !== 'granted') {
+                alert("Sorry, we need photo permissions for you to add spot images.")
+            } else {
+                pickImage();
+            }
+        } else {
+            alert("Maximum of 8 photos reached.")
+        }
+    }
+
+    // Pick Image
+    async function pickImage() {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        });
+
+        if (!result.cancelled) {
+            setIsImageLoading(true);
+            images.push(result.uri)
+            setImages(images);
+            setIsImageLoading(false);
+        }
     }
 
     // Automatically asynchronously calls functions
@@ -136,10 +168,20 @@ function NewSpotScreen({ navigation }) {
                         />
                     </View>
                     <View style={styles.inputContainer}>
-                        <Text style={styles.fieldText}>Make Private?</Text>
+                        <Text style={styles.fieldText}>Photos</Text>
+                        <Button
+                            title="Add a Photo"
+                            onPress={() => requestImagePicking()}
+                        />
+                    </View>
+                    <View style={[styles.inputContainer, {marginLeft: 35}]}>
+                        {!isImageLoading ? renderImages() : renderImages()}
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.fieldText}>Make Public?</Text>
                         <Switch 
                             style={styles.switch}
-                            value={!visible}
+                            value={visible}
                             onChange={() => setVisible(!visible)}
                         />
                     </View>
@@ -167,7 +209,6 @@ function NewSpotScreen({ navigation }) {
                     <View style={styles.inputContainer}>
                         {renderTags()}
                     </View>
-                    
                     <View style={[styles.inputContainer, {flex: 1}]}>
                     </View>
                 </ScrollView>
@@ -249,6 +290,15 @@ function NewSpotScreen({ navigation }) {
     function setChosenLocation(mapLat, mapLong) {
         setLatitude(mapLat);
         setLongitude(mapLong);
+    }
+
+    function renderImages() {
+        if (images.length > 0) {
+            return images.map((image, index) => {
+                return <Image source={{ uri: image }} key={index} style={{ width: 80, height: 60 }}/>;
+            });
+        }
+        return <Text style={{color: 'gray'}}>No Photos</Text>
     }
 
     function renderTags() {
