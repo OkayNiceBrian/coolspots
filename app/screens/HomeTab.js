@@ -1,9 +1,7 @@
 import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HomeScreen from './HomeScreen';
 import HomeStack from './HomeStack';
-import MapScreen from './MapScreen';
 import MapStack from './MapStack';
 
 const Tab = createBottomTabNavigator();

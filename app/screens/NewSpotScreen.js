@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Divider from '../components/Divider';
 import { apiUrl } from '../../global';
+import { imgurClientId } from '../../env'
 import MapView, { Marker } from 'react-native-maps';
 import { View, StyleSheet, TextInput, Text, TouchableHighlight, Switch, Button, ScrollView, Alert, Image } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
@@ -228,6 +229,9 @@ function NewSpotScreen({ navigation }) {
         console.log("Submit Pressed");
         // Checks if all the fields have been filled, otherwise doesn't submit
         if (name != "" && description != "" && tags.length > 0 && city != "" && longitude && latitude) {
+
+            uploadImages();
+
             const spotModel = {
                 name: name,
                 description: description,
@@ -236,7 +240,7 @@ function NewSpotScreen({ navigation }) {
                 latitude: parseFloat(latitude),
                 longitude: parseFloat(longitude),
                 visible: visible,
-                imageLinks: []
+                imageLinks: imageLinks
             }
             try {
                 // Makes a POST request to send the spot to the api/database
@@ -272,6 +276,32 @@ function NewSpotScreen({ navigation }) {
                     { text: "Ok", onPress: () => console.log("OK Pressed") }
                 ]
             );
+        }
+    }
+
+    async function uploadImages() {
+        try {
+            for (let image of images) {
+                let clientId = imgurClientId;
+                let imgUrl = image;
+
+                const formData = new FormData();
+                formData.append('image', imgUrl);
+
+                const response = await fetch("https://api.imgur.com/3/upload/", {
+                    method: 'POST',
+                    headers: {
+                        Authorization: "Client-ID " + clientId
+                    },
+                    body: formData
+                }).then(data => data.json()).then(data => {
+                    imageLinks.push(data.data.link);
+                    console.log(data);
+                });
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Images were unable to be uploaded.");
         }
     }
 
