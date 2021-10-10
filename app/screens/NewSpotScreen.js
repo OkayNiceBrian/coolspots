@@ -230,7 +230,9 @@ function NewSpotScreen({ navigation }) {
         // Checks if all the fields have been filled, otherwise doesn't submit
         if (name != "" && description != "" && tags.length > 0 && city != "" && longitude && latitude) {
 
-            uploadImages();
+            if (!uploadImages()) {
+                return;
+            }
 
             const spotModel = {
                 name: name,
@@ -285,19 +287,26 @@ function NewSpotScreen({ navigation }) {
                 let clientId = imgurClientId;
                 let imgUrl = image;
 
-                const formData = new FormData();
-                formData.append('image', imgUrl);
+                const imgResponse = await fetch(imgUrl);
+                const blob = await imgResponse.blob();
+                console.log(blob);
 
-                const response = await fetch("https://api.imgur.com/3/upload/", {
+                const formData = new FormData();
+                formData.append('type', 'file');
+                formData.append('image', blob);
+
+                const response = await fetch("https://api.imgur.com/3/image", {
                     method: 'POST',
                     headers: {
                         Authorization: "Client-ID " + clientId
                     },
                     body: formData
-                }).then(data => data.json()).then(data => {
-                    imageLinks.push(data.data.link);
-                    console.log(data);
-                });
+                })
+
+                response = response.json();
+                imageLinks.push(response.data.link);
+                console.log(response);
+                return data.success;
             }
         } catch (err) {
             console.error(err);
