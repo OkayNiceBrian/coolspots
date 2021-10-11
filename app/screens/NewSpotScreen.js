@@ -286,14 +286,18 @@ function NewSpotScreen({ navigation }) {
             for (let image of images) {
                 let clientId = imgurClientId;
                 let imgUrl = image;
+                let file = "";
 
-                const imgResponse = await fetch(imgUrl);
-                const blob = await imgResponse.blob();
-                console.log(blob);
+                // Try to get image file in base64 or binary
+                // var reader = new FileReader();
+                // reader.readAsDataURL(imgUrl);
+                // reader.onload = function() {
+                //     console.log(reader.result);
+                //     file = reader.result;
+                // };
 
                 const formData = new FormData();
-                formData.append('type', 'file');
-                formData.append('image', blob);
+                formData.append('image', file);
 
                 const response = await fetch("https://api.imgur.com/3/image", {
                     method: 'POST',
