@@ -83,13 +83,17 @@ function NewSpotScreen({ navigation }) {
 
         if (!result.cancelled) {
             setIsImageLoading(true);
-            images.push(result.uri)
+            const image = {
+                base64: result.base64,
+                uri: result.uri
+            }
+            images.push(image);
             setImages(images);
             setIsImageLoading(false);
         }
     }
 
-    // Automatically asynchronously calls functions
+    // Automatically and asynchronously calls functions
     useEffect(() => {
         if (isLocalLoading) {
             getMySpotIds();
@@ -230,7 +234,9 @@ function NewSpotScreen({ navigation }) {
         // Checks if all the fields have been filled, otherwise doesn't submit
         if (name != "" && description != "" && tags.length > 0 && city != "" && longitude && latitude) {
 
-            if (!uploadImages()) {
+            let uploadedSuccessfully = await uploadImages();
+
+            if (!uploadedSuccessfully) {
                 return;
             }
 
@@ -285,19 +291,11 @@ function NewSpotScreen({ navigation }) {
         try {
             for (let image of images) {
                 let clientId = imgurClientId;
-                let imgUrl = image;
-                let file = "";
-
-                // Try to get image file in base64 or binary
-                // var reader = new FileReader();
-                // reader.readAsDataURL(imgUrl);
-                // reader.onload = function() {
-                //     console.log(reader.result);
-                //     file = reader.result;
-                // };
+                let imgUrl = image.uri;
+                let img = image.base64;
 
                 const formData = new FormData();
-                formData.append('image', file);
+                formData.append('image', img);
 
                 const response = await fetch("https://api.imgur.com/3/image", {
                     method: 'POST',
@@ -305,16 +303,19 @@ function NewSpotScreen({ navigation }) {
                         Authorization: "Client-ID " + clientId
                     },
                     body: formData
-                })
-
-                response = response.json();
-                imageLinks.push(response.data.link);
-                console.log(response);
-                return data.success;
+                }).then( (r) => {
+                    r = r.json();
+                }).then( (data) => {
+                    console.log(data);
+                    imageLinks.push(data.data.link);
+                    console.log(data);
+                    return true;
+                });
             }
         } catch (err) {
             console.error(err);
             alert("Images were unable to be uploaded.");
+            return false;
         }
     }
 
@@ -338,7 +339,7 @@ function NewSpotScreen({ navigation }) {
     function renderImages() {
         if (images.length > 0) {
             return images.map((image, index) => {
-                return <Image source={{ uri: image }} key={index} style={{ width: 80, height: 60 }}/>;
+                return <Image source={{ uri: image.uri }} key={index} style={{ width: 80, height: 60 }}/>;
             });
         }
         return <Text style={{color: 'gray'}}>No Photos</Text>
