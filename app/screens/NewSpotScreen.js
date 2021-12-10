@@ -7,6 +7,7 @@ import { View, StyleSheet, TextInput, Text, TouchableHighlight, Switch, Button, 
 import * as SecureStore from 'expo-secure-store';
 import * as Location from 'expo-location';
 import * as ImagePicker from 'expo-image-picker';
+import { Console } from 'jest-util';
 
 function NewSpotScreen({ navigation }) {
 
@@ -80,13 +81,15 @@ function NewSpotScreen({ navigation }) {
             aspect: [4, 3],
             quality: 1,
         });
-
+        
+        console.log(result);
         if (!result.cancelled) {
             setIsImageLoading(true);
             const image = {
                 base64: result.base64,
                 uri: result.uri
             }
+            console.log("Image base64: " + image.base64);
             images.push(image);
             setImages(images);
             setIsImageLoading(false);
@@ -270,6 +273,8 @@ function NewSpotScreen({ navigation }) {
                     });
                     console.log(mySpotIds);
                 }
+
+                console.log("Spot Successfully Created!");
             } catch (err) {
                 console.error(err);
             } finally {
@@ -294,23 +299,27 @@ function NewSpotScreen({ navigation }) {
                 let imgUrl = image.uri;
                 let img = image.base64;
 
+                console.log("Image: " + img);
+
                 const formData = new FormData();
                 formData.append('image', img);
 
-                const response = await fetch("https://api.imgur.com/3/image", {
+                const response = await fetch("https://api.imgur.com/3/image/", {
                     method: 'POST',
                     headers: {
                         Authorization: "Client-ID " + clientId
                     },
                     body: formData
-                }).then( (r) => {
-                    r = r.json();
-                }).then( (data) => {
-                    console.log(data);
-                    imageLinks.push(data.data.link);
-                    console.log(data);
-                    return true;
                 });
+
+                const json = response.json().then(async data => {
+                    console.log(data);
+                    if (data.data.hadOwnProperty('link')) {
+                        imageLinks.push(data.data.link);
+                        return true;
+                    }
+                });
+                return false;
             }
         } catch (err) {
             console.error(err);
