@@ -25,6 +25,7 @@ const MySpotsScreen = ({ navigation }) => {
             console.log("MySpotIds retrieved successfully!")
         } else {
             console.log("MySpotIds NOT retrieved successfully");
+            setLocalLoading(false);
         }
     }
 

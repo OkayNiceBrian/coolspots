@@ -21,6 +21,7 @@ const SpotViewScreen = ({ navigation, route }) => {
             console.log("MySpotIds retrieved successfully!")
         } else {
             console.log("MySpotIds NOT retrieved successfully");
+            setLocalLoading(false);
         }
     }
 
