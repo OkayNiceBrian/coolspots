@@ -7,7 +7,6 @@ import { View, StyleSheet, TextInput, Text, TouchableHighlight, Switch, Button, 
 import * as SecureStore from 'expo-secure-store';
 import * as Location from 'expo-location';
 import * as ImagePicker from 'expo-image-picker';
-import { Console } from 'jest-util';
 
 function NewSpotScreen({ navigation }) {
 
@@ -321,6 +320,7 @@ function NewSpotScreen({ navigation }) {
                 });
                 return false;
             }
+            return true;
         } catch (err) {
             console.error(err);
             alert("Images were unable to be uploaded.");

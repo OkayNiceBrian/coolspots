@@ -1,4 +1,3 @@
-// import { StatusBar } from 'expo-status-bar';
 import './global';
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';

@@ -36,7 +36,7 @@ const HomeTab = ({ navigation }) => {
             <Tab.Screen 
                 name='MapTab'
                 component={MapStack}
-                options={{ headerShown: false }}
+                options={{ headerShown: false, unmountOnBlur: true }}
             />
         </Tab.Navigator>
     );
