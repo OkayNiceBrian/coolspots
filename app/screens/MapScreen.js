@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import MapView, { PROVIDER_GOOGLE, Marker, Callout } from 'react-native-maps';
 import { StyleSheet, View, Text, ActivityIndicator, Platform } from 'react-native';
-import { apiUrl } from '../../global';
+import { apiUrl } from '../../env';
 import { Spot } from '../models/Spot';
 
 const MapScreen = ({ navigation, route }) => {
