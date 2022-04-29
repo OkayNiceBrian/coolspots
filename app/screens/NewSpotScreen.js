@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Divider from '../components/Divider';
-import { apiUrl } from '../../global';
+import { apiUrl } from '../../env';
 import { imgurClientId } from '../../env'
 import MapView, { Marker } from 'react-native-maps';
 import { View, StyleSheet, TextInput, Text, TouchableHighlight, Switch, Button, ScrollView, Alert, Image } from 'react-native';

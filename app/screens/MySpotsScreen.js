@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Divider from '../components/Divider';
 import { TouchableHighlight, StyleSheet, View, Text, ActivityIndicator, ScrollView } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
-import { apiUrl } from '../../global';
+import { apiUrl } from '../../env';
 import { Spot } from '../models/Spot';
 import { useIsFocused } from '@react-navigation/native';
 
